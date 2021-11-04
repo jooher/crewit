@@ -1,0 +1,13 @@
+.filter>.search:empty::before{
+	content:"Все события"
+}
+
+h3:empty::before{
+	content:"Заголовок";
+}
+.tags:empty::before{
+	content:"теги";
+}
+.html:empty::before{
+	content:"текст";
+}

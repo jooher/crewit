@@ -1,0 +1,19 @@
+{
+	"version": 2,
+	"name": "Luna",
+	"short_name": "Luna",
+	"start_url": "./index.html",
+	"scope": ".",
+	"display": "standalone",
+	"orientation": "portrait",
+	"background_color": "#3E4EB8",
+	"theme_color": "#2F3BA2",
+	"icons": [
+		{
+			"src": "./icons/luna.jpg",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	]
+}
