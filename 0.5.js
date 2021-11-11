@@ -18,6 +18,8 @@ const	dap=(Env=>
 	
 		check,
 	
+		""	:promise=>promise,/// good to run Promises
+	
 		"?"	:bool=>!!bool,	/// test
 		"!"	:bool=>!bool,	/// test inverse
 		

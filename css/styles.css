@@ -7,7 +7,7 @@
 
 
 body,input,select{font: normal 1rem 'Montserrat',sans-serif;/* padding: 0; */margin: 0;}
-body{padding: 0 1em; padding:0; max-width: 360px; overflow-y:scroll; position:relative; }
+body{padding: 0 1em;padding:0;max-width: 480px;overflow-y:scroll;position:relative;}
 
 #roof{position:fixed;z-index: 1;top: 0;max-width: 640px;background: black;width: 100%;color: wheat; border-radius: 0 0 .5em .5em;}
 
@@ -195,15 +195,13 @@ date {
 
 [contenteditable].edit {
   margin: 1.8em 0;
-  /* width: 100%; */
   border-bottom: 1px dashed lightgray;
   font-family: sans-serif;
   white-space: pre-wrap;
-  /* min-width: 16em; */
 }
 
 [contenteditable]{
-	background: floralwhite;
+  background: floralwhite;
 }
 
 [contenteditable].edit::before {
