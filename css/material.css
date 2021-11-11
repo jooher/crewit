@@ -1,6 +1,4 @@
 /*
-
-
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -12,24 +10,25 @@
        url(MaterialIcons-Regular.woff) format('woff'),
        url(MaterialIcons-Regular.ttf) format('truetype');
 }
+
 */
 
 body{height:100%}
 
-icon, .checked::before /*button::before,*/ 
+icon::before, tap::before, .checked::before /*button::before,*/ 
 {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 1.5rem;  /* Preferred icon size */
-  padding: .75rem;
+  /* font-size: 1.5rem; */  /* Preferred icon size */
+  /* padding: .5rem; */
   display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
+  /* line-height: 1; */
+  /* text-transform: none; */
+  /* letter-spacing: normal; */
+  /* word-wrap: normal; */
   white-space: nowrap;
-  direction: ltr;
+  /* direction: ltr; */
   -webkit-font-smoothing: antialiased;	/* Support for all WebKit browsers. */
   text-rendering: optimizeLegibility;	/* Support for Safari and Chrome. */
   -moz-osx-font-smoothing: grayscale; 	/* Support for Firefox. */
@@ -39,18 +38,27 @@ icon, .checked::before /*button::before,*/
 
 .checked::before {content:"check"; position:absolute; right:0; top:0; }
 
-icon::before, button::before, action:empty::before{
+icon::before, tap::before, action:empty::before{
 	content:attr(class);
 }
 
-button{border:none; background:none}
-
-button::before{
-	vertical-align: middle;
-	margin: 0 .25em;
+tap {
+	padding: .25em;
+	min-width: 1.5em;
+	text-align: center;
+	/* height: 2rem; */
+	background: gold;
+	border-radius: 50%;
 	box-shadow:0 4px 4px rgba(0,0,0,.25);
+	display: inline-block;
+}
+
+button {
 	border:none;
-	z-index: 1;
+	padding: .5em 1em;
+	background: gold;
+	border-radius: .5rem;
+	box-shadow:0 4px 4px rgba(0,0,0,.25);
 }
 
 action{
@@ -60,19 +68,19 @@ action{
 	text-transform:uppercase;
 }
 
-button, [contenteditable]{
-	/* outline:none; */
+tap, [contenteditable]{
+	outline:none;
 }
 
-.attic,.vault{
+attic,vault{
 	position:fixed;
 	text-align:right;
 }
 
-.attic{
+attic{
 	top:0;
 }
 
-.vault{
+vault{
 	bottom:0;
 }

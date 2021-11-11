@@ -1,6 +1,6 @@
-const uploadUrl="php/upload1.php";
+//const uploadUrl="php/upload1.php";
 
-export default (options={}) => {
+export default (uploadUrl,options={}) => {
 	
 	const
 	

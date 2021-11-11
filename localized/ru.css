@@ -2,12 +2,21 @@
 	content:"Все события"
 }
 
-h3:empty::before{
-	content:"Заголовок";
-}
-.tags:empty::before{
-	content:"теги";
-}
-.html:empty::before{
-	content:"текст";
-}
+h3:empty::before{ content:"Заголовок"}
+.tags:empty::before{ content:"теги"}
+.html:empty::before{ content:"текст"}
+
+.edit.name::before {content: "Имя:"}
+.edit.skills::before {content: "Скилы (опыт, лицензии, разряды):"}
+.edit.links::before { content: "Страницы"; }
+
+label.phone::before {content: "Ваш номер телефона";}
+label.challenge::before {content: "Проверочный код";}
+
+.edit.alias::before {content: "Имя или псевдоним";}
+
+button.join::before {content: "Я тоже хочу!";}
+
+button.done::before {content: "Готово";}
+
+.crew>heading::before {content: "Команда"}
