@@ -23,21 +23,29 @@
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,.4);
     position: relative;
     margin: auto;
-    max-width: 60%;
     display: inline-block;
 }
 
 
 .dialog>label {
   display: block;
-  margin: 1em 0;
+  margin: 2em 0;
   text-align: center;
+}
+
+.dialog>label::before{
+	display:block;
+	margin:.5em 0
 }
 
 label>input {
   text-align: inherit;
   border: none;
   border-bottom: 1px solid;
-  /* font-size: 1.5em; */
   display: block;
+}
+
+.dialog>li {
+  display: block;
+  margin: 1em;
 }

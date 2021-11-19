@@ -10,77 +10,238 @@
        url(MaterialIcons-Regular.woff) format('woff'),
        url(MaterialIcons-Regular.ttf) format('truetype');
 }
-
 */
 
-body{height:100%}
+[data-dap=false]{display:none !important;}
+[ui=click]{cursor:pointer;}
 
-icon::before, tap::before, .checked::before /*button::before,*/ 
-{
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  /* font-size: 1.5rem; */  /* Preferred icon size */
-  /* padding: .5rem; */
-  display: inline-block;
-  /* line-height: 1; */
-  /* text-transform: none; */
-  /* letter-spacing: normal; */
-  /* word-wrap: normal; */
-  white-space: nowrap;
-  /* direction: ltr; */
-  -webkit-font-smoothing: antialiased;	/* Support for all WebKit browsers. */
-  text-rendering: optimizeLegibility;	/* Support for Safari and Chrome. */
-  -moz-osx-font-smoothing: grayscale; 	/* Support for Firefox. */
-  font-feature-settings: 'liga';		/* Support for IE. */
-  color: inherit;
+[FADE]{position:absolute;animation: 1s fadein; width: 100%;}
+[FADE].STALE{opacity:0; transition:opacity 1s ease}
+@keyframes fadein { from {opacity:0;} to {opacity:1} }
+
+
+icon, tap {
+  vertical-align: middle;
 }
 
-.checked::before {content:"check"; position:absolute; right:0; top:0; }
+icon::before, tap::before, .checked::before
+{
+	font-family: 'Material Icons';
+	font-weight: normal;
+	font-style: normal;
+	padding: .25em;
+	display: inline-block;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+	-webkit-font-smoothing: antialiased;	/* Support for all WebKit browsers. */
+	text-rendering: optimizeLegibility;	/* Support for Safari and Chrome. */
+	-moz-osx-font-smoothing: grayscale; 	/* Support for Firefox. */
+	font-feature-settings: 'liga';		/* Support for IE. */
+}
+
+.checked::before {
+	content: "check";
+	position: absolute;
+	right:0;
+	top:0;
+}
 
 icon::before, tap::before, action:empty::before{
 	content:attr(class);
 }
 
 tap {
-	padding: .25em;
-	min-width: 1.5em;
-	text-align: center;
-	/* height: 2rem; */
-	background: gold;
-	border-radius: 50%;
-	box-shadow:0 4px 4px rgba(0,0,0,.25);
-	display: inline-block;
-}
-
-button {
-	border:none;
-	padding: .5em 1em;
-	background: gold;
-	border-radius: .5rem;
-	box-shadow:0 4px 4px rgba(0,0,0,.25);
+	border-radius:50%
 }
 
 action{
 	display: inline-block;
 	font-size: .85em;
-	margin: .5em;
-	text-transform:uppercase;
+	margin: .5em 2em;
 }
 
-tap, [contenteditable]{
-	outline:none;
+toggle {
+	display: block;
+	font-size:.8em;
 }
 
-attic,vault{
-	position:fixed;
-	text-align:right;
+label>icon{
+	margin: 0;
+	padding: 0;
+	font-size: inherit;
+	position:absolute;
+}
+
+
+/*
+h1{font:normal 60px Roboto,sans-serif}
+h2{ font: normal 1.25rem sans-serif; margin-top: 2em; font: bold 1.5em Roboto,sans-serif; }
+h3{ font: normal 21px Roboto,sans-serif; margin-top: 2em;}
+h4{font:normal 27px Roboto,sans-serif}
+h5{font:normal 24px Roboto,sans-serif}
+h6{font:normal 20px Roboto,sans-serif}
+*/
+
+
+
+html,body {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+@media(max-width: 38rem){
+	body{max-width:100%;overflow-x: hidden;}
+	.client{ width: 200%;}
+}
+
+body{
+	max-width: 720px;
+	margin: 0 auto;
+}
+
+body,section,article{
+	position: relative;
+}
+
+app {
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	transition: all .5s;
+}
+
+page {
+	flex: 1;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+roof{
+	position:relative;
+	z-index: 1;
+}
+
+etage {
+	flex: 1;
+	position: relative;
+	flex-direction: column;
+	overflow-y: auto;
+	scroll-behavior: smooth;
 }
 
 attic{
-	top:0;
+	display: block;
+	position: sticky;
+	top: 0;
+	margin: 0;
+	z-index: 1;
 }
 
-vault{
+attic>bar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+attic>bar {
+	font-size: 1.25rem;
+}
+
+attic>bar>icon {
+	margin: .25em;
+}
+
+vault {
+	padding: .5rem;
+	box-sizing: border-box;
+	display: flex;
+	margin: 0;
+	font-size: 1.25em;
+	box-shadow: 0 -.5rem .5rem white;
+	z-index: 1;
+}
+
+tabset {
+	position:absolute;
 	bottom:0;
+	left: 1rem;
+	text-transform: uppercase;
+	font-size: .9em;
+}
+
+tab {
+	display: inline-block;
+	transition: all .5s;
+	padding: .5em;
+	border-bottom: 3px solid transparent;
+}
+
+tab.selected {
+	border-bottom-color: inherit;
+}
+
+article {padding: 1rem;}
+
+
+button {
+	padding: .5em 1em;
+	border-radius:.5em;
+}
+
+
+input, select {
+	font-size: inherit;
+	font-family:inherit;
+}
+
+input {
+	text-align: inherit;
+}
+
+input[type=number] {
+	text-align: right;
+}
+
+input[type=month] {
+	width: 10em;
+}
+
+input::placeholder {
+	font: italic 1em sans-serif;
+}
+
+input, button, [contenteditable] {
+	outline:none;
+	border: none;
+}
+
+[contenteditable] {
+	cursor: text !important;
+	white-space: pre-wrap;
+}
+
+
+[contenteditable]:empty::before{
+	color: gray;
+}
+
+.overlay {
+	position: absolute;
+	background: inherit;
+	box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+}
+
+.bar>icon, .bar>button {
+	margin-left: 1em;
+	vertical-align: middle;
+ }
+
+.bar>icon{
+	font-size: 1.5em;
 }

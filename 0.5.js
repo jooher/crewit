@@ -829,7 +829,7 @@ const	dap=(Env=>
 					if(this.branch){
 						Perf("Postpone wait",this.time);
 						this.target.value=value;
-						Perf("Postpone resolve",Date.now(),
+						Perf("Postpone resolve",new Date(),
 							this.branch.up
 							? Update.checkUp(this.branch.node,this.branch.up,false,null,this.todo)
 							: this.branch.runDown(this.todo,this.place,this.instead)
@@ -1004,8 +1004,10 @@ const	dap=(Env=>
 							//	target = entry && up || path.reach(context,this),
 								i = route.length,
 								key = route[--i],
-								target = up && entry && !i ? up : path.reach(context,this);
-								
+								target = up && entry && (!i||up[entry]) ? up : path.reach(context,this);
+							
+if(i<0)
+Fail("bzzz i<0");	
 								
 							while(i){
 								target=target[key]||(target[key]={});
@@ -1104,17 +1106,14 @@ const	dap=(Env=>
 			if(todo)
 				result = new Execute.Branch(node,change).execBranch(todo);
 			
+			if(result instanceof Execute.Postpone)
+				return result.locate(node);
+
 			const
 				defs = node.P.scope.defines,
 				up = defs && (!parent || node.$!=parent.$)
 					? adopt(node.$.stata,defs,change,{})
 					: change;					
-
-			if(result instanceof Execute.Postpone){
-				result.locate(node);
-				checkDown(node,Object.assign({},change),false,snitch);
-				return;
-			}
 
 			return (parent && parent.P && checkUp(parent,up,result,node)>3) || checkDown(node,change,snitch)>3;
 		},			
@@ -1177,7 +1176,7 @@ const	dap=(Env=>
 					node = target||event.currentTarget,
 					value = event.type;
 					
-				Execute.Perf(event.type,Date.now(),checkUp(node,{event},value));
+				Execute.Perf(event.type,new Date(),checkUp(node,{event},value));
 			}
 			
 		};

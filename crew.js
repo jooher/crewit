@@ -8,9 +8,9 @@ import wait from "./jsm/modal.js";
 const scrim = "scrim".ui('value :?'),
 	modal = (...dialog) => "modal".d('top',scrim,"dialog".d(...dialog)).u("value .value; kill");
 
-import restAPI from "./jsm/rest.js";
-import httpAuth from "./jsm/auth.js";
-import imgtaker from "./jsm/imgtaker.js";
+import restAPI	from "./jsm/rest.js";
+import httpAuth	from "./jsm/auth.js";
+import imgtaker	from "./jsm/imgtaker.js";
 
 const server = "https://orders.saxmute.one/luna/",
 	headers= {  }, //"Content-Type":"application/json;charset=utf-8"
@@ -20,47 +20,54 @@ const server = "https://orders.saxmute.one/luna/",
 
 const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").ui(".what=#.innerText").FOR({what});
 
+const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDateString' : 'toLocaleString']();
 
-'PAGE'.d("$auth=:auth.load $scheduled= $create= $tags= $tagset= $tag=. $datefrom=. $dateto=.; u!"
-
-	,'auth'
-	.d("? $auth"
-		,'TAP.add'.ui("$create=:!")
-		,'ICON.logout'.ui("$auth=:auth.quit")
-	)
-	.d("? $auth:!"
-		,'ICON.login'.ui("$auth=Login():wait")
-	)
+'APP'.d(""
+	,'PAGE'.d("$auth=:auth.load $scheduled= $create= $tagset= $search=( .article .author .member .tag ); u!"
 	
-	,'filter'.d("$dates="
-		,'INPUT.search placeholder="Все события"'.d("# $tag@value").ui("$tag=#:text")
-		,'dates'.d(""
-			,'INPUT type=date'.d("# $datefrom@value").ui("$datefrom=#:value")
-			,'INPUT type=date'.d("# $dateto@value").ui("$dateto=#:value")
+		,'ATTIC'.d("$?="
+
+			,'BAR'.d(""
+				,'home'.ui("$search=")
+				,'LABEL.search'.d(""
+					,'ICON.search'.d("")
+					,'INPUT'.d("# $search.tag@value").ui("$search=( #:text@tag )")
+				)
+				,'ICON.login'.d("? $auth:!").ui("$auth=Login():wait")
+				,'ICON.person'.d("? $auth").ui("$?=$?:!")
+			)
+		
+			,'submenu'.d('? $?; Badge( $auth.author )'
+				,'TAP.add'.ui("$create=:!")
+				,'ICON.logout'.ui("$auth=:auth.quit")
+			).u("$?=")
+	
 		)
-	)
-	
-	,'SECTION.create'.d("? $create; Article(:!@edit)")
-	,'SECTION FADE=1000'.d("* (`Articles $tag $datefrom $dateto)api:query; ! Article")
-)
 
+		,'ETAGE'.d(""
+			,'SECTION.create'.d("? $create; Article(:!@edit)")
+			,'SECTION FADE=1000'.d("* (`Articles $search )api:query; ! Article")
+		)
+		
+	)
+)
 .DICT({
 	
 	Article
-	:'ARTICLE'.d("& .content@; $edit=."
+	:'ARTICLE'.d("& .content@; $edit=.; here? .?=( $search.article .article )eq"
 	
-		,'auth'.d("? (.author $auth.author)eq"
+		,'auth'.d("$edit; ? (.author $auth.author)eq"
 			,'ICON.edit'.d("? $edit:!").ui("$edit=:!")
 		)
 		
 		,'content'
 		
-		.d("? $edit:!"
+		.d("? $edit:!; $?=."
 		
 			,'H3'.d("! .title")
 		
 			,'tags'.d("* .tags:split@tag"
-				,'tag'.d("! .tag").ui("$tag=.")
+				,'tag'.d("! .tag").ui("$search=(.tag)")
 			)
 			
 			,'pics'.d("* .pics"
@@ -70,28 +77,36 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 			,'html'.d("#.innerHTML=.html:sanitizeOut")
 			
 			,'info'.d(""
-				,'DATE'.d("! .date:date")
-				,'ADDRESS'.d("! .venue")
+				,'venue'.d("! (.venue .date:date)?")
 				,'price'.d("! .price").ui(".buy=$")
+/*				
+				,'DATE'.d("! .date:date")
 				,'prices'.d("* .prices"
 					,'price'.d("! .price").ui("..buy=$")
 				).ui("? (..buy):buy")
+*/
 			)
 			
-			,'crew'.d("$crew="
+			,"more".d('? $?; $crew=("Members .article)api:query'
 			
-				,'HEADING'.ui('? $crew=$crew:!; $crew=("Members .article)api:query')//crew:alert
+				,'SECTION.terms'.d("! .terms")
 				
-				,'members'.d("*@ $crew"
+				,'SECTION.crew'.d("*@ $crew"
 					,'member'.d("!! (.info.alias .author)? .info.skills@title; !? (.author $auth.author)eq@me")
 				)
 				
-				,'BUTTON.join'.d("? $crew; ? ($crew $auth.author)filter:?!")////$auth.info $auth.info
-				.ui(`	? $auth $auth=Login():wait;
-					? $auth.info $auth.info=Info($auth.author):wait,check;
-					? $crew=( @PUT"Member .article:check)api:query msg.error.connection:alert;
-				?`)
+				,'bar'.d(""
+					,"ICON.share".ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
+				
+					,'BUTTON.join'.d("? ($crew $auth.author)filter:?!")////$auth.info $auth.info
+					.ui(`	? $auth $auth=Login():wait;
+						? $auth.info $auth.info=Info($auth.author):wait;
+						? $crew=( @PUT"Member .article)api:query msg.error.connection:alert;
+					?`)
+				).u('?')
+				
 			)
+			,'TOGGLE'.ui('? $?=$?:!;').a("!? $?@on")
 			
 /*			
 			,'attitude'.d("* (`Attitude .article)db"
@@ -103,8 +118,10 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		
 		.d("? $edit; $cavs= $tags="
 		
-			,'H3 contenteditable'.d("! .title; paste plaintext").ui(".title=#:value")
+			,'H3 contenteditable'.d("! .title; paste plaintext; #:focus").ui(".title=#:value")
 		
+			,edit('tags')
+/*			
 			,'addtags'.d("? $tags; ? $tagset $tagset=dir.tagset:query,tagset"
 				,'tags'.d("* $tagset"
 					,'tagset'.d("* .tagset@tag"
@@ -113,7 +130,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 						.ui("$tags=($tags .tag)set.toggle; ?")
 					)
 				)
-				,'TAP.done'.ui(".tags=$tags:set.tostr $tags=")
+				,'TAP.done'.ui(".tags=$tags:set.tostr $tags=")//
 			)
 			
 			,'tags'
@@ -121,7 +138,8 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				,'tag'.d("! .tag")
 			)
 			.ui("$tags=.tags:set.fromstr")			
-		
+*/		
+
 			,'pics'
 			.d("? $cavs; ! $cavs")
 			.d("? $cavs:!; * (.pics defaultpics)?@pic"
@@ -135,20 +153,29 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 			.ui(".html=#:sanitizeIn")
 					
 			,'info'.d(""
-				,'INPUT.date type=date'.d("# .date@value").ui(".date=#:value")
+				,edit('venue')// contenteditable'.d("! .venue").ui(".venue")
 				,'price'.d(""
 					,'INPUT type=number step=100'.d("# .price@value").ui(".price=#:value")
 				)
 			)
 			
-			,'BUTTON.done'
-			.ui(`
-				? (.pics $cavs)? msg.error.nopics:alert;
-				? (.date .tags .title .price .html)! msg.error.incomplete:alert;
-				? .pics=($cavs:img.upload .pics)? msg.error.upload:alert;
-				? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .pics)@content) )api:query msg.error.connection:alert;
-				msg.success.posted:alert .article=.result.0.article $edit=
-			`)
+			,'LABEL.date'.d(""
+				,'INPUT.date type=date'.d("# .date@value").ui(".date=#:value")
+			)
+			
+			,'bar'.d(""
+			
+				,'ACTION.cancel'.ui("$create=")
+			
+				,'BUTTON.done'.ui(`
+					? (.pics $cavs)? msg.error.nopics:alert;
+					? (.date .tags .title .price .html)! msg.error.incomplete:alert;
+					? .pics=($cavs:img.upload .pics)? msg.error.upload:alert;
+					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .pics)@content) )api:query msg.error.connection:alert;
+					.article=.result.0.article $edit=
+				`)
+			)
+			
 		)
 	),
 	
@@ -156,7 +183,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	:modal('$challenge='
 		
 		,"LABEL.phone".d(''
-			,"INPUT.phone type=tel".ui(`
+			,"INPUT.phone type=tel".d("#:focus").ui(`
 				? .phone=#:value,valid.phone msg.error.phone:alert;
 				? $challenge=( "Auth.challenge .phone )api:query msg.error.connection:alert;
 				.otpwd=$challenge.0.otpwd;
@@ -165,7 +192,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		
 		,"LABEL.challenge".d('? $challenge'
 				// ? .otpwd=#:value,valid.otpwd msg.error.otpwd:alert;
-			,"INPUT".ui(`
+			,"INPUT".d("#:focus").ui(`
 				? .verify=( "Auth.verify .phone .otpwd )api:query msg.error.wrong:alert;
 				? .value=.verify.0:auth.save;
 			`)
@@ -173,35 +200,57 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	),
 	
 	Info
-	:modal('$?=; *@ ("Author .author)api:query'
-		,"authorinfo".d('! `info; *@ .info=(.info ())?'
-			,"alias skills links".split(" ").map(edit)
-		).u("$?=:!; ?")
-		,"TAP.ok".ui(`
-			? $?:! (@POST"Author (.info) )api:query msg.error.connection:alert;
-			log ..value=.info;
-		`)
-	)
+	:modal(''
+		,'profile'.d('$?=; *@ ("Author .author)api:query'
+	
+			,"avatar".d("! Avatar")
+			
+			,"form".d('*@ .info=(.info ())?'
+				,"alias skills links".split(" ").map(edit)
+			).u("$?=:!; ?")
+			
+			,"BUTTON.ok".ui(`
+				? $?:! (@POST"Author (.info) )api:query msg.error.connection:alert;
+				..value=.info;
+			`)
+		)
+	),
+	
+	Badge
+	:"badge".d('* ("Author .author)api:query'
+		,'avatar'.d("! Avatar").ui("$auth.info=Info(.author):wait")
+		,'alias'.d("! .info.alias")
+		,'skills'.d("! .info.skills")
+		,'activity'.d(""
+			,'LI.myarticles'.ui("$search=(.author)")
+			,'LI.mymemberships'.ui("$search=(.author@member)")
+		)
+	),
+	
+	Avatar
+	:"IMG alt=''".d("!! (dir.avatar@ .author)uri@src").ui("upload")
 
 })
 
 .DICT({
 	
-	crew:[
-{"author":10,"info":{"alias": "Некто Неординарный", "skills": "IYT Offshore", "_empty_": null}}
-,{"author":11,"info":{"alias": "veritasiumus", "skills": "RYA Superhero", "_empty_": null}}
-,{"author":20,"info":{"alias": "Тодор Живков", "skills": "слесарь 6-го разряда", "_empty_": null}}
-],
-	
 	msg,
-	state:"new like interested definite",
+	
+	base: location.origin+"/#!",
+	
 	dir:{
 		pics: server+"content/",
+		avatar: server+"content/avatar/",
 		tagset: "localized/ru.txt"
 	},
 	
 	defaultpics: ["default.jpg"],
 	
+	plaintext: ctrlv => ctrlv.getData('text/plain'),
+	safehtml: ctrlv => ctrlv.getData('text/plain')//'application/rtf'
+	
+/*
+	state:"new like interested definite",
 	"article-seed": {price:1500}, //, date:(new Date()).toISOString().substring(0,10)"2021-03-17T19:00"
 	
 	touch
@@ -211,8 +260,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		)
 	).ui(""),	
 	
-	plaintext: ctrlv => ctrlv.getData('text/plain'),
-	safehtml: ctrlv => ctrlv.getData('text/plain')//'application/rtf'
+*/	
 	
 })
 
@@ -222,7 +270,9 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		set:{
 			fromstr: a => a ? a.split(" ").reduce((s,k)=>(s[k]=true, s), {}) : {},
 			tostr: s => Object.keys(s).join(" ")
-		}
+		},
+		focus: el=>setTimeout(_=> el.focus(),100),
+		
 	},
 	
 	flatten:{
@@ -231,12 +281,17 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				(a,v,i) => a.filter( o => 
 					o[tags[i]]==v 
 				),
-				values.pop() ),
+				values.pop()
+			),
 		
 		set:{
 			includes: values => values.reduce((a,k)=>(a && (k in a) && a), values.pop()),
 			toggle: values => values.reduce((a,k)=>(a[k]=!(k in a), a), values.pop()),
 		}
+	},
+	
+	operate:{
+		"here?": (value,alias,node) => { if(value)setTimeout(_=>node.scrollIntoView(),100); }
 	}
 
 })
@@ -253,14 +308,12 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	},
 	
 	convert:{
-		img, auth, 
+		img, auth, date,
 		split	:str=>str?str.split(" "):[],
-		date	: date=>date,//
+		
 		sanitizeIn: elem=>elem.innerText.trim(), //
 		sanitizeOut: html=>html&&html.trim(),
-		buy	: id=>alert("Купить id"),
 		tagset: txt=>txt.split("\n").map(line=>line.split(" ")),
-		info	: p => Object.assign({name:"", skills:"Навыки", href:"https://facebook.com/"},p),
 		
 		valid :{
 			phone: str => {
@@ -268,9 +321,11 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				return phone.length==11 && phone;
 			},
 			otpwd: str => str.replace(/[^0-9]/g,'')
-		}
+		},
+		
+		share : data => navigator.share && navigator.share(data) && true
 	}
-	
+		
 })
 
 .FUNC( wraps, wait, {flatten:{api}} )

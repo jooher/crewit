@@ -1,0 +1,117 @@
+/*
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(MaterialIcons-Regular.eot);
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(MaterialIcons-Regular.woff2) format('woff2'),
+       url(MaterialIcons-Regular.woff) format('woff'),
+       url(MaterialIcons-Regular.ttf) format('truetype');
+}
+
+*/
+
+body{height:100%}
+
+icon::before, tap::before, .checked::before /*button::before,*/ 
+{
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  /* font-size: 1.5rem; */  /* Preferred icon size */
+  /* padding: .5rem; */
+  display: inline-block;
+  /* line-height: 1; */
+  /* text-transform: none; */
+  /* letter-spacing: normal; */
+  /* word-wrap: normal; */
+  white-space: nowrap;
+  /* direction: ltr; */
+  -webkit-font-smoothing: antialiased;	/* Support for all WebKit browsers. */
+  text-rendering: optimizeLegibility;	/* Support for Safari and Chrome. */
+  -moz-osx-font-smoothing: grayscale; 	/* Support for Firefox. */
+  font-feature-settings: 'liga';		/* Support for IE. */
+  color: inherit;
+}
+
+.checked::before {content:"check"; position:absolute; right:0; top:0; }
+
+icon::before, tap::before, action:empty::before{
+	content:attr(class);
+}
+
+tap {
+	padding: 1em;
+	min-width: 1.5em;
+	text-align: center;
+	/* height: 2rem; */
+	background: gold;
+	border-radius: 50%;
+	/* box-shadow:0 4px 4px rgba(0,0,0,.25); */
+	display: inline-block;
+}
+
+button {
+	border:none;
+	padding: .5em 1em;
+	background: gold;
+	border-radius: .5rem;
+	box-shadow: 0 2px 3px rgb(0 0 0 / 25%);
+}
+
+action{
+	display: inline-block;
+	font-size: .85em;
+	margin: .5em;
+	text-transform:uppercase;
+}
+
+tap, [contenteditable]{
+	outline:none;
+}
+
+attic,vault{
+	position:fixed;
+	text-align:right;
+}
+
+attic{
+	top:0;
+}
+
+vault{
+	bottom:0;
+}
+
+
+roof {
+  padding: .5em;
+  /* background: white; */
+  border-bottom: 1px solid gray;
+  display: block;
+  /* position: sticky; */
+  /* top: 0; */
+  /* z-index: 1; */
+}
+
+page {
+  display: flex;
+  height: 100%;
+  /* padding-top: 6em; */
+  flex-direction: column;
+}
+
+app {
+  height: 100%;
+  /* display: flex; */
+}
+
+etage {
+  overflow-y: scroll;
+}
+
+html,body,app,page {
+  height: 100%;
+}

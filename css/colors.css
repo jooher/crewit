@@ -1,0 +1,12 @@
+button,tap{background:gold}
+etage {background: ghostwhite}
+attic	{box-shadow: 0 4px 4px rgb(0 0 0/10%)}
+h3	{color: darkslategray}
+article{border-bottom: .4em solid lightgray}
+toggle, icon { color: gray; }
+
+[contenteditable]{background: floralwhite}
+.badge>.skills {color: gray}
+.member.me::before {background-color: gold}
+
+section.create { background: lavender; }
