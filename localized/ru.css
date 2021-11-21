@@ -28,7 +28,7 @@ button.ok::before{content:"OK"}
 .venue:empty::before{content:"Дата, время \AМесто, адрес"}
 
 .price::before{content:"₽ "}
-.member.me::before{content:"Я"}
+.member.me::after{content:"это я"}
 
 .myarticles::before{content:"команды"}
 .mymemberships::before{content:"подписки"}

@@ -10,13 +10,14 @@ const scrim = "scrim".ui('value :?'),
 
 import restAPI	from "./jsm/rest.js";
 import httpAuth	from "./jsm/auth.js";
-import imgtaker	from "./jsm/imgtaker.js";
+import imgtaker	from "./jsm/imgtake.js";
 
 const server = "https://orders.saxmute.one/luna/",
 	headers= {  }, //"Content-Type":"application/json;charset=utf-8"
 	auth	= httpAuth( headers, u => 'Basic '+ btoa([u.author,u.token].join(":")) ),
 	api	= restAPI( {base:server + "php/data.php?", headers} ),
-	img	= imgtaker(server+"php/upload1.php");
+	img	= imgtaker(server+"php/upload1.php",{maxw:1280,maxh:720}),
+	ava	= imgtaker(server+"php/upload1.php",{maxw:640,maxh:640});
 
 const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").ui(".what=#.innerText").FOR({what});
 
@@ -145,8 +146,12 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 			.d("? $cavs:!; * (.pics defaultpics)?@pic"
 				,'IMG'.d("!! (dir.pics .pic)concat@src")
 			)
+			
+			,'LABEL'.d(""
+				,'ICON.upload'.d("")
+				,'INPUT.img type=file multiple'.ui("$cavs=#.files:img.take")//
+			)
 
-			,'INPUT.img type=file multiple'.ui("$cavs=#.files:img.take")//
 
 			,'html contenteditable'
 			.d("#.innerHTML=.html:sanitizeOut; paste safehtml")
@@ -179,6 +184,23 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 		)
 	),
 	
+	Avatar
+	:"IMG.avatar".d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
+	
+	Badge
+	:"badge".d('* ("Author .author)api:query'
+	
+		,'short'.d("! Avatar"
+			,'alias'.d("! .info.alias")
+			,'skills'.d("! .info.skills")
+		).ui("$auth.info=Info(.author):wait")
+		
+		,'activity'.d(""
+			,'LI.myarticles'.ui("$search=(.author)")
+			,'LI.mymemberships'.ui("$search=(.author@member)")
+		)
+	),
+	
 	Login
 	:modal('$challenge='
 		
@@ -203,32 +225,26 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 	:modal(''
 		,'profile'.d('$?=; *@ ("Author .author)api:query'
 	
-			,"avatar".d("! Avatar")
+			,"form".d('*@ .info=(.info ())?; '
 			
-			,"form".d('*@ .info=(.info ())?'
+				,'LABEL.filepicker'.d("$pic="
+				
+					,'IMG.avatar'.d("!! (dir.pics@ ($pic.0 .pic `default.jpg)? )concat@src")
+					
+					,'INPUT.img type=file'.ui("? $pic=#.files:ava.take,ava.upload; .pic=$pic.0")
+					
+				)
+				
 				,"alias skills links".split(" ").map(edit)
-			).u("$?=:!; ?")
+			).u("$?=(); ?")
 			
 			,"BUTTON.ok".ui(`
 				? $?:! (@POST"Author (.info) )api:query msg.error.connection:alert;
 				..value=.info;
 			`)
 		)
-	),
+	)
 	
-	Badge
-	:"badge".d('* ("Author .author)api:query'
-		,'avatar'.d("! Avatar").ui("$auth.info=Info(.author):wait")
-		,'alias'.d("! .info.alias")
-		,'skills'.d("! .info.skills")
-		,'activity'.d(""
-			,'LI.myarticles'.ui("$search=(.author)")
-			,'LI.mymemberships'.ui("$search=(.author@member)")
-		)
-	),
-	
-	Avatar
-	:"IMG alt=''".d("!! (dir.avatar@ .author)uri@src").ui("upload")
 
 })
 
@@ -308,7 +324,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 	},
 	
 	convert:{
-		img, auth, date,
+		img, ava, auth, date,
 		split	:str=>str?str.split(" "):[],
 		
 		sanitizeIn: elem=>elem.innerText.trim(), //

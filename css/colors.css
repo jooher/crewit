@@ -7,6 +7,6 @@ toggle, icon { color: gray; }
 
 [contenteditable]{background: floralwhite}
 .badge>.skills {color: gray}
-.member.me::before {background-color: gold}
+.member.me::after {background-color: gold}
 
 section.create { background: lavender; }
