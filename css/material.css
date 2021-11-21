@@ -24,13 +24,14 @@ icon, tap {
   vertical-align: middle;
 }
 
-icon::before, tap::before, .checked::before
+icon::before, tap::before, .checked::before, [icon]::before
 {
 	font-family: 'Material Icons';
 	font-weight: normal;
 	font-style: normal;
 	padding: .25em;
 	display: inline-block;
+	  vertical-align: middle;
 	line-height: 1;
 	text-transform: none;
 	letter-spacing: normal;
@@ -48,6 +49,10 @@ icon::before, tap::before, .checked::before
 	position: absolute;
 	right:0;
 	top:0;
+}
+
+[icon]::before {
+  content: attr(icon);
 }
 
 icon::before, tap::before, action:empty::before{

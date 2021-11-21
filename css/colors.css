@@ -5,7 +5,7 @@ h3	{color: darkslategray}
 article{border-bottom: .4em solid lightgray}
 toggle, icon { color: gray; }
 
-[contenteditable]{background: floralwhite}
+[contenteditable]{background: lavender;}
 .badge>.skills {color: gray}
 .member.me::after {background-color: gold}
 

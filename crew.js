@@ -117,7 +117,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 */
 		)
 		
-		.d("? $edit; $cavs= $tags="
+		.d("? $edit; $pics= $tags="
 		
 			,'H3 contenteditable'.d("! .title; paste plaintext; #:focus").ui(".title=#:value")
 		
@@ -142,16 +142,14 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 */		
 
 			,'pics'
-			.d("? $cavs; ! $cavs")
-			.d("? $cavs:!; * (.pics defaultpics)?@pic"
+			.d("? $pics; ! $pics")
+			.d("? $pics:!; * (.pics defaultpics)?@pic"
 				,'IMG'.d("!! (dir.pics .pic)concat@src")
 			)
 			
-			,'LABEL'.d(""
-				,'ICON.upload'.d("")
-				,'INPUT.img type=file multiple'.ui("$cavs=#.files:img.take")//
+			,'LABEL.addpics icon=photo'.d(""
+				,'INPUT type=file multiple'.ui("$pics=#.files:img.take")
 			)
-
 
 			,'html contenteditable'
 			.d("#.innerHTML=.html:sanitizeOut; paste safehtml")
@@ -173,9 +171,9 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 				,'ACTION.cancel'.ui("$create=")
 			
 				,'BUTTON.done'.ui(`
-					? (.pics $cavs)? msg.error.nopics:alert;
+					? (.pics $pics)? msg.error.nopics:alert;
 					? (.date .tags .title .price .html)! msg.error.incomplete:alert;
-					? .pics=($cavs:img.upload .pics)? msg.error.upload:alert;
+					? .pics=($pics:img.upload .pics)? msg.error.upload:alert;
 					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .pics)@content) )api:query msg.error.connection:alert;
 					.article=.result.0.article $edit=
 				`)
@@ -185,14 +183,15 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 	),
 	
 	Avatar
-	:"IMG.avatar".d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
+	:"IMG".d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
 	
 	Badge
 	:"badge".d('* ("Author .author)api:query'
 	
-		,'short'.d("! Avatar"
-			,'alias'.d("! .info.alias")
-			,'skills'.d("! .info.skills")
+		,'short'.d("*@ .info"
+			,'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat")//d("! Avatar")
+			,'alias'.d("! .alias")
+			,'skills'.d("! .skills")
 		).ui("$auth.info=Info(.author):wait")
 		
 		,'activity'.d(""
@@ -227,13 +226,11 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 	
 			,"form".d('*@ .info=(.info ())?; '
 			
-				,'LABEL.filepicker'.d("$pic="
+				,'LABEL.avatar.filepicker'.d("$pic=; a!"
 				
-					,'IMG.avatar'.d("!! (dir.pics@ ($pic.0 .pic `default.jpg)? )concat@src")
+					,'INPUT type=file'.ui("? $pic=#.files:ava.take,ava.upload; .pic=$pic.0")
 					
-					,'INPUT.img type=file'.ui("? $pic=#.files:ava.take,ava.upload; .pic=$pic.0")
-					
-				)
+				).a("bg (dir.pics@ ($pic.0 .pic `default.jpg)? )concat")
 				
 				,"alias skills links".split(" ").map(edit)
 			).u("$?=(); ?")
@@ -307,7 +304,10 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 	},
 	
 	operate:{
-		"here?": (value,alias,node) => { if(value)setTimeout(_=>node.scrollIntoView(),100); }
+		"here?": (value,alias,node) => { if(value)setTimeout(_=>node.scrollIntoView(),100); },
+		
+		
+		bg: (value,alias,node) => node.style.backgroundImage="url('"+value+"')"
 	}
 
 })

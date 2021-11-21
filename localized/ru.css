@@ -34,3 +34,5 @@ button.ok::before{content:"OK"}
 .mymemberships::before{content:"подписки"}
 
 action.cancel::before{content:"Отмена"}
+
+label.addpics::after {content: "фотки";}
