@@ -71,10 +71,6 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 				,'tag'.d("! .tag").ui("$search=(.tag)")
 			)
 			
-			,'pics'.d("* .pics"
-				,'IMG'.d("!! (dir.pics .pics)concat@src")
-			)
-			
 			,'html'.d("#.innerHTML=.html:sanitizeOut")
 			
 			,'info'.d(""
@@ -90,7 +86,11 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 			
 			,"more".d('? $?; $crew=("Members .article)api:query'
 			
-				,'SECTION.terms'.d("! .terms")
+				,'pics'.d("* .pics"
+					,'IMG'.d("!! (dir.pics .pics)concat@src")
+				)
+				
+				,'SECTION.details'.d("? .details; ! .details")
 				
 				,'SECTION.crew'.d("*@ $crew"
 					,'member'.d("!! (.info.alias .author)? .info.skills@title; !? (.author $auth.author)eq@me")
@@ -140,18 +140,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 			)
 			.ui("$tags=.tags:set.fromstr")			
 */		
-
-			,'pics'
-			.d("? $pics; ! $pics")
-			.d("? $pics:!; ? .pics; * .pics@pic"// (defaultpics)?
-				,'IMG'.d("!! (dir.pics .pic)concat@src")
-			)
-/*			
-*/			
-			,'LABEL.addpics icon=photo'.d(""
-				,'INPUT type=file multiple'.ui("$pics=#.files:img.take")
-			)
-
+			
 			,'html contenteditable'
 			.d("#.innerHTML=.html:sanitizeOut; paste safehtml")
 			.ui(".html=#:sanitizeIn")
@@ -163,7 +152,21 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 				)
 			)
 			
-			,'LABEL.date'.d(""
+			,'LABEL.addpics icon=photo'.d(""
+				,'INPUT type=file multiple'.ui("$pics=#.files:img.take")
+			)
+
+			,'pics'
+			.d("? $pics; ! $pics")
+			.d("? $pics:!; ? .pics; * .pics@pic"// (defaultpics)?
+				,'IMG'.d("!! (dir.pics .pic)concat@src")
+			)
+			
+			,'details contenteditable'
+			.d("#.innerHTML=.details:sanitizeOut; paste safehtml")
+			.ui(".details=#:sanitizeIn")
+			
+			,'LABEL.expiry'.d(""
 				,'INPUT.date type=date'.d("# .date@value").ui(".date=#:value")
 			)
 			
@@ -174,7 +177,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 				,'BUTTON.done'.ui(`
 					? (.date .tags .title .price .html)! msg.error.incomplete:alert;
 					? $pics:! .pics=($pics:img.upload .pics)? msg.error.upload:alert;
-					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .pics)@content) )api:query msg.error.connection:alert;
+					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .pics .details)@content) )api:query msg.error.connection:alert;
 					.article=.result.0.article $edit=
 				`)//? (.pics $pics)? msg.error.nopics:alert;
 			)

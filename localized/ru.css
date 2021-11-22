@@ -3,6 +3,7 @@
 h3:empty::before{content:"Заголовок"}
 .tags:empty::before{content:"теги"}
 .html:empty::before{content:"текст"}
+.details:empty::before{content:"детали"}
 
 .edit.name::before{content:"Имя:"}
 .edit.skills::before{content:"Скилы (опыт, лицензии, разряды):"}
@@ -36,3 +37,5 @@ button.ok::before{content:"OK"}
 action.cancel::before{content:"Отмена"}
 
 label.addpics::after {content: "фотки";}
+
+label.expiry::before {content: "Крайняя дата";}

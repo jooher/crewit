@@ -1,4 +1,4 @@
-body{font: normal .9em 'Montserrat',sans-serif;}
+body{font: normal .9rem 'Montserrat',sans-serif;}
 .home::before {content: "Crew!"; font-weight: bold; margin: .5em;}
 
 .tags {font-size: .8em;margin: 1em 0;}
@@ -94,7 +94,7 @@ article>.auth{
 
 
 .more {
-	font-size: .8em;
+	/* font-size: .9em; */
 }
 
 .more>section {
@@ -162,6 +162,7 @@ article>.auth{
 .venue {
 	flex: 1;
 	white-space: pre-wrap;
+	font: italic .9em sans-serif;
 }
 
 
@@ -287,4 +288,13 @@ label.avatar.filepicker {
 .avatar>img {
   /* max-width: 100%; */
   max-height: 100%;
+}
+
+section.crew {
+  font-size: .8em;
+}
+
+label.expiry {
+  margin: 1em 0;
+  display: inline-block;
 }

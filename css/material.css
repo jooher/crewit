@@ -52,7 +52,7 @@ icon::before, tap::before, .checked::before, [icon]::before
 }
 
 [icon]::before {
-  content: attr(icon);
+  /* content: attr(icon); */
 }
 
 icon::before, tap::before, action:empty::before{
@@ -249,4 +249,10 @@ input, button, [contenteditable] {
 
 .bar>icon{
 	font-size: 1.5em;
+}
+
+label::before {
+  /* font-size: .8rem; */
+  color: gray;
+  margin: .5em 0;
 }
