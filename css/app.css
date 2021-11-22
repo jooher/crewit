@@ -1,7 +1,7 @@
 body{font: normal .9rem 'Montserrat',sans-serif;}
 .home::before {content: "Crew!"; font-weight: bold; margin: .5em;}
 
-.tags {font-size: .8em;margin: 1em 0;}
+.tags {font-size: .8em;/* margin: 1em 0; */}
 .tags.edit { word-spacing: .8em; }
 
 .tag {
@@ -35,10 +35,13 @@ body{font: normal .9rem 'Montserrat',sans-serif;}
 	outline: none;
 	hyphens: auto;
 	margin: 1em 0;
+	clear: both;
 }
 
 .price {
 	margin-left: 1em;
+	padding: .2em .5em;
+	background: aquamarine;
 }
 
 .price>input{
@@ -59,20 +62,17 @@ body{font: normal .9rem 'Montserrat',sans-serif;}
 	overflow-y: hidden;
 }
 
+/*
 .pics + label.addpics{
-	/* position:absolute; */
-	/* margin-top: -5rem; */
-	/* background: lavender; */
+	position:absolute;
+	margin-top: -5rem;
+	background: lavender;
 }
+*/
 
 label.addpics{
 	display: inline-block;
-	/* background: white; */
-	/* padding: .5rem 1rem; */
-	/* border-radius: .5em; */
-	/* box-shadow: 0 2px 4px rgb(0 0 0/25%); */
 	cursor: pointer;
-	/* margin: 1em 0; */
 	border-bottom: 1px dashed;
 }
 /**/
@@ -89,12 +89,6 @@ article>.auth{
 	display: flex;
 	align-items: end;
 	margin: 1em 0;
-}
-
-
-
-.more {
-	/* font-size: .9em; */
 }
 
 .more>section {
@@ -186,10 +180,6 @@ attic>bar>.search{
 
 
 attic>.submenu {
-  /* position: absolute; */
-  /* width: 100%; */
-  /* text-align: right; */
-  /* font-size: .9rem; */
   position: relative;
   padding: 1em;
   min-height: 8em;
@@ -216,14 +206,13 @@ img.avatar {
 
 .html[contenteditable] {
   min-height: 4em;
-  /* margin: 1em 0; */
 }
 
 .badge{
 	padding-left: 5em;
 }
 
-.short>img.avatar {
+.short>.avatar {
 	height: 4em;
 	width: 4em;
 	position: absolute;
@@ -276,18 +265,12 @@ img.avatar {
   width:64px;
   background: gray center no-repeat;
   background-size: cover;
-  /* border: 1px solid; */
 }
 
 label.avatar.filepicker {
   width: 160px;
   height: 160px;
   margin: 0 auto;
-}
-
-.avatar>img {
-  /* max-width: 100%; */
-  max-height: 100%;
 }
 
 section.crew {
@@ -297,4 +280,20 @@ section.crew {
 label.expiry {
   margin: 1em 0;
   display: inline-block;
+}
+
+.content>.thumb {
+  width: 80px;
+  height: 80px;
+  background: center no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  /* float: right; */
+  /* margin: -1rem -.5rem 1rem 0; */
+  float: left;
+  margin: -.5rem 1rem 1rem -.25em;
+}
+
+.content>h3 {
+  margin: .5rem 0;
 }

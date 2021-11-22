@@ -38,4 +38,4 @@ action.cancel::before{content:"Отмена"}
 
 label.addpics::after {content: "фотки";}
 
-label.expiry::before {content: "Крайняя дата";}
+label.expiry::before {content: "Актуально до";}

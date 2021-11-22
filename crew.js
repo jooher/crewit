@@ -19,9 +19,10 @@ const server = "https://orders.saxmute.one/luna/",
 	img	= imgtaker(server+"php/upload1.php",{maxw:1280,maxh:720}),
 	ava	= imgtaker(server+"php/upload1.php",{maxw:640,maxh:640});
 
-const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").ui(".what=#.innerText").FOR({what});
+const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDateString' : 'toLocaleString'](),
+	dateonly = str => str.split(" ")[0];
 
-const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDateString' : 'toLocaleString']();
+const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").ui(".what=#.innerText").FOR({what});
 
 'APP'.d(""
 	,'PAGE'.d("$auth=:auth.load $scheduled= $create= $tagset= $search=( .article .author .member .tag ); u!"
@@ -64,6 +65,8 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 		,'content'
 		
 		.d("? $edit:!; $?=."
+		
+			,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")//d("! Avatar")
 		
 			,'H3'.d("! .title; #:focus")
 		
@@ -119,6 +122,14 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 		
 		.d("? $edit; $pics= $tags="
 		
+			//,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")//d("! Avatar")
+
+			,'LABEL.thumb'.d("$thumb=; a!"
+			
+				,'INPUT type=file'.ui("? $thumb=#.files:ava.take,ava.upload; .thumb=$thumb.0")
+				
+			).a("bg (dir.pics@ ($thumb.0 .thumb .pics.0 `default.jpg)? )concat")
+
 			,'H3 contenteditable'.d("! .title; paste plaintext; #:focus").ui(".title=#:value")
 		
 			,edit('tags')
@@ -167,7 +178,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 			.ui(".details=#:sanitizeIn")
 			
 			,'LABEL.expiry'.d(""
-				,'INPUT.date type=date'.d("# .date@value").ui(".date=#:value")
+				,'INPUT.date type=date'.d("!! .date:dateonly@value").ui(".date=#:value")
 			)
 			
 			,'bar'.d(""
@@ -177,7 +188,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 				,'BUTTON.done'.ui(`
 					? (.date .tags .title .price .html)! msg.error.incomplete:alert;
 					? $pics:! .pics=($pics:img.upload .pics)? msg.error.upload:alert;
-					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .pics .details)@content) )api:query msg.error.connection:alert;
+					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .thumb .pics .details)@content) )api:query msg.error.connection:alert;
 					.article=.result.0.article $edit=
 				`)//? (.pics $pics)? msg.error.nopics:alert;
 			)
@@ -310,7 +321,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 		"here?": (value,alias,node) => { if(value)setTimeout(_=>node.scrollIntoView(),100); },
 		
 		
-		bg: (value,alias,node) => node.style.backgroundImage="url('"+value+"')"
+		bg: (value,alias,node) => { node.style.backgroundImage="url('"+value+"')"; }
 	}
 
 })
@@ -327,7 +338,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 	},
 	
 	convert:{
-		img, ava, auth, date,
+		img, ava, auth, date, dateonly,
 		split	:str=>str?str.split(" "):[],
 		
 		sanitizeIn: elem=>elem.innerText.trim(), //

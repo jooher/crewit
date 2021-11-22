@@ -156,6 +156,7 @@ attic>bar {
 
 attic>bar {
 	font-size: 1.25rem;
+	/* background: darkorange; */
 }
 
 attic>bar>icon {
