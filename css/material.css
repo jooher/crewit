@@ -233,7 +233,7 @@ input, button, [contenteditable] {
 
 
 [contenteditable]:empty::before{
-	color: gray;
+	color: slateblue;
 }
 
 .overlay {

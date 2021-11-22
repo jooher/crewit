@@ -19,9 +19,9 @@ export default (uploadUrl,options={}) => {
 	pack = img => {
 		
 		const
-			scale = Math.min(maxw/img.width, maxh/img.height, 1),
-			w = Math.round(scale*img.width),
-			h = Math.round(scale*img.height),
+			scale = Math.min(maxw/img.naturalWidth, maxh/img.naturalHeight, 1),
+			w = Math.round(scale*img.naturalWidth),
+			h = Math.round(scale*img.naturalHeight),
 			canvas = document.createElement('canvas');
 
 		canvas.width = w;

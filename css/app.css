@@ -1,12 +1,12 @@
 body{font: normal .9em 'Montserrat',sans-serif;}
 .home::before {content: "Crew!"; font-weight: bold; margin: .5em;}
 
-.tags { font-size: .8em; }
+.tags {font-size: .8em;margin: 1em 0;}
 .tags.edit { word-spacing: .8em; }
 
 .tag {
     display: inline-block;
-    margin: 0 .4em;
+    margin-right: 0.8em;
 }
 .tag.unset{
 	color: lightslategray;
@@ -34,6 +34,7 @@ body{font: normal .9em 'Montserrat',sans-serif;}
 	white-space: pre-wrap;
 	outline: none;
 	hyphens: auto;
+	margin: 1em 0;
 }
 
 .price {
@@ -46,28 +47,33 @@ body{font: normal .9em 'Montserrat',sans-serif;}
 }
 
 
-.pics>img,.pics>canvas {max-height: 98%;margin: 0 2px;border-radius: 1em;}
+.pics>img,.pics>canvas {max-height: 100%;margin: 0 2px;border-radius: 1em;}
 
-.pics {
+.pics:not(:empty) {
 	margin: 1rem -1rem;
 	padding: 0;
 	height: 320px;
 	position: relative;
 	white-space: nowrap;
 	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.pics + label.addpics{
+	/* position:absolute; */
+	/* margin-top: -5rem; */
+	/* background: lavender; */
 }
 
 label.addpics{
-	position:absolute;
 	display: inline-block;
-	margin-top: -5rem;
-	background: white;
-	/* font-size: 1.5em; */
-	padding: .5rem 1rem;
-	background: lavender;
-	border-radius: .5em;
-	box-shadow: 0 2px 4px rgb(0 0 0/25%);
+	/* background: white; */
+	/* padding: .5rem 1rem; */
+	/* border-radius: .5em; */
+	/* box-shadow: 0 2px 4px rgb(0 0 0/25%); */
 	cursor: pointer;
+	/* margin: 1em 0; */
+	border-bottom: 1px dashed;
 }
 /**/
 label>input[type=file] {
@@ -209,6 +215,7 @@ img.avatar {
 
 .html[contenteditable] {
   min-height: 4em;
+  /* margin: 1em 0; */
 }
 
 .badge{

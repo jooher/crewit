@@ -65,7 +65,7 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 		
 		.d("? $edit:!; $?=."
 		
-			,'H3'.d("! .title")
+			,'H3'.d("! .title; #:focus")
 		
 			,'tags'.d("* .tags:split@tag"
 				,'tag'.d("! .tag").ui("$search=(.tag)")
@@ -143,10 +143,11 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 
 			,'pics'
 			.d("? $pics; ! $pics")
-			.d("? $pics:!; * (.pics defaultpics)?@pic"
+			.d("? $pics:!; ? .pics; * .pics@pic"// (defaultpics)?
 				,'IMG'.d("!! (dir.pics .pic)concat@src")
 			)
-			
+/*			
+*/			
 			,'LABEL.addpics icon=photo'.d(""
 				,'INPUT type=file multiple'.ui("$pics=#.files:img.take")
 			)
@@ -168,15 +169,14 @@ const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDat
 			
 			,'bar'.d(""
 			
-				,'ACTION.cancel'.ui("$create=")
+				,'ACTION.cancel'.ui("$edit= $create=")
 			
 				,'BUTTON.done'.ui(`
-					? (.pics $pics)? msg.error.nopics:alert;
 					? (.date .tags .title .price .html)! msg.error.incomplete:alert;
-					? .pics=($pics:img.upload .pics)? msg.error.upload:alert;
+					? $pics:! .pics=($pics:img.upload .pics)? msg.error.upload:alert;
 					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .pics)@content) )api:query msg.error.connection:alert;
 					.article=.result.0.article $edit=
-				`)
+				`)//? (.pics $pics)? msg.error.nopics:alert;
 			)
 			
 		)
