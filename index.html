@@ -1,73 +1,63 @@
 <!DOCTYPE html>
 <html lang="ru">
 	<head>
-		<meta charset="utf-8">
-		<title>Crew it!</title>		
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="theme-color" content="#000">
+	
+<meta charset="utf-8">
+<title>Crew it!</title>		
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000">
+
+<link rel="apple-touch-icon" href="icons/icon192.png"/>
+<link rel="manifest"   href="manifest.json"/>
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Pacifico&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<link rel="stylesheet" href="css/material.css"/>
+<link rel="stylesheet" href="css/modal.css"/>
+<link rel="stylesheet" href="css/app.css"/>
+<link rel="stylesheet" href="css/colors.css"/>
+
+<script type="module" src="./crew.js"></script>
+
+<script>
+	//if ('serviceWorker' in navigator)navigator.serviceWorker.register('./service-worker.js');
+</script>
 		
-		<link rel="apple-touch-icon" href="icons/icon192.png"/>
-		<link rel="manifest"   href="manifest.json"/>
-		<link rel="preconnect" href="https://fonts.gstatic.com">
-		
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Pacifico&display=swap">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		<!--
-		-->
-		
-		<link rel="stylesheet" href="css/material.css"/>
-		<link rel="stylesheet" href="css/modal.css"/>
-		<link rel="stylesheet" href="css/app.css"/>
-		<link rel="stylesheet" href="css/colors.css"/>
-		<link rel="stylesheet" href="localized/ru.css"/>
-		
-		<script type="module" src="./crew.js"></script>
-		
-		<script>
-			//if ('serviceWorker' in navigator)navigator.serviceWorker.register('./service-worker.js');
-		</script>
+<style>
+h3:empty::before{content:"Заголовок"}
+.tags:empty::before{content:"теги"}
+.html:empty::before{content:"текст"}
+.details:empty::before{content:"детали"}
+.venue:empty::before{content:"Дата, время \AМесто, адрес"}
+label.addpics::after {content: "фотки"}
+label.expiry::before {content: "актуально до"}
+.price::before{content:"₽ "}
+.crew::before{content:"Команда"}
+.member.me::after{content:"это я"}
+
+.content>toggle::before{content:"Детали..."}
+.content>toggle.on::before{content:"Скрыть детали"}
+
+.edit.alias::before{content:"Имя или псевдоним"}
+.edit.skills::before{content:"Скилы (опыт, лицензии, разряды)"}
+.edit.links::before{content:"Страницы"}
+label.phone::before{content:"Ваш номер телефона"}
+label.challenge::before{content:"Код из СМС"}
+.myarticles::before{content:"команды"}
+.mymemberships::before{content:"подписки"}
+
+button.join::before{content:"Вписаться!"}
+button.done::before{content:"Готово"}
+action.cancel::before{content:"Отмена"}
+button.ok::before{content:"OK"}
+</style>
+
 	</head>
 	
-	<body>
-	
+<body>
 <section id="data" style="display:none">
-
-
-
-<div name="alerts">
-
-error
-	nopics	Как насчет какой-нибудь красивой фотки в тему?
-	incomplete	Все поля нужно заполнить: заголовок, теги, текст, время, стоимость
-	upload	Не удалось загрузить фотки
-	connection	Проблема с подключением
-	wrong		Неа
-	
-success
-	posted	Ок, принято
-	
-</div>
-
-<div name="labels">
-.filter>.search:empty	Все события
-
-h3:empty		Заголовок
-.tags:empty		теги
-.html:empty		текст
-
-label.phone		Ваш номер телефона
-label.challenge	Проверочный код
-
-.edit.alias		Имя или псевдоним
-.edit.skills	Скилы (опыт, лицензии, разряды)
-.edit.links		Страницы
-
-button.join		Я тоже хочу!
-button.done		Готово
-
-.crew>heading	Команда
-</div>
-
 </section>
 </body>
 
