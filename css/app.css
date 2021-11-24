@@ -277,7 +277,7 @@ section.crew {
   font-size: .8em;
 }
 
-label.expiry {
+.content>label {
   margin: 1em 0;
   display: inline-block;
 }
@@ -296,4 +296,16 @@ label.expiry {
 
 .content>h3 {
   margin: .5rem 0;
+}
+
+.service>.link {
+  flex: 1;
+  /* width: 100%; */
+  margin-left: 2em;
+}
+
+.service {
+  display: flex;
+  margin: 2em 0;
+  align-items: flex-end;
 }

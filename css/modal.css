@@ -43,6 +43,7 @@ label>input {
   border: none;
   border-bottom: 1px solid;
   display: block;
+  width: 100%;
 }
 
 .dialog>li {

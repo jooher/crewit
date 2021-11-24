@@ -257,3 +257,12 @@ label::before {
   color: gray;
   margin: .5em 0;
 }
+
+.dialog>.bar {
+  text-align: right;
+  margin-top: 2em;
+}
+
+input[type=date] {
+  width: 9em;
+}

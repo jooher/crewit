@@ -1,12 +1,22 @@
 import "./0.5.js"; //https://dap.js.org/0.5.js
 
 import msg from "./localized/ru.js";
+
+const	grab	= src	=> Object.fromEntries(
+		[...(src.parentNode.removeChild(src)).children]
+		.filter(n=>n.hasAttribute("name"))
+		.map(n=>[n.getAttribute("name"),n])
+	),
+		
+	html	= grab(document.getElementById("data"));
+
 	
 import wraps from "./jsm/wraps.js";
 import wait from "./jsm/modal.js";
 
 const scrim = "scrim".ui('value :?'),
 	modal = (...dialog) => "modal".d('top',scrim,"dialog".d(...dialog)).u("value .value; kill");
+
 
 import restAPI	from "./jsm/rest.js";
 import httpAuth	from "./jsm/auth.js";
@@ -20,7 +30,7 @@ const server = "https://orders.saxmute.one/luna/",
 	ava	= imgtaker(server+"php/upload1.php",{maxw:640,maxh:640});
 
 const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDateString' : 'toLocaleString'](),
-	dateonly = str => str.split(" ")[0];
+	dateonly = str => str && str.split(" ")[0];
 
 const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").ui(".what=#.innerText").FOR({what});
 
@@ -79,12 +89,6 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 			,'info'.d(""
 				,'venue'.d("! (.venue .date:date)?")
 				,'price'.d("! .price").ui(".buy=$")
-/*				
-				,'DATE'.d("! .date:date")
-				,'prices'.d("* .prices"
-					,'price'.d("! .price").ui("..buy=$")
-				).ui("? (..buy):buy")
-*/
 			)
 			
 			,"more".d('? $?; $crew=("Members .article)api:query'
@@ -99,14 +103,18 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 					,'member'.d("!! (.info.alias .author)? .info.skills@title; !? (.author $auth.author)eq@me")
 				)
 				
-				,'bar'.d(""
+				,'bar'.d("$joined=($crew $auth.author)filter:??"
 					,"ICON.share".ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
 				
-					,'BUTTON.join'.d("? ($crew $auth.author)filter:?!")////$auth.info $auth.info
-					.ui(`	? $auth $auth=Login():wait;
+					,'BUTTON.join'.d("? $joined:!")////$auth.info $auth.info
+					.ui(`	? .confirm=Confirm( html.join@message ):wait;
+						? $auth $auth=Login():wait;
 						? $auth.info $auth.info=Info($auth.author):wait;
 						? $crew=( @PUT"Member .article)api:query msg.error.connection:alert;
 					?`)
+					
+					,'A.discuss'.d("? $joined; !! .link@href")
+					
 				).u('?')
 				
 			)
@@ -122,8 +130,6 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		
 		.d("? $edit; $pics= $tags="
 		
-			//,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")//d("! Avatar")
-
 			,'LABEL.thumb'.d("$thumb=; a!"
 			
 				,'INPUT type=file'.ui("? $thumb=#.files:ava.take,ava.upload; .thumb=$thumb.0")
@@ -163,13 +169,13 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				)
 			)
 			
-			,'LABEL.addpics icon=photo'.d(""
-				,'INPUT type=file multiple'.ui("$pics=#.files:img.take")
+			,'LABEL.addpics'.d(""// icon=photo
+				,'INPUT type=file multiple accept=image/png,image/gif,image/jpeg'.ui("$pics=#.files:img.take")
 			)
 
 			,'pics'
 			.d("? $pics; ! $pics")
-			.d("? $pics:!; ? .pics; * .pics@pic"// (defaultpics)?
+			.d("? $pics:!; ? .pics; * .pics@pic"
 				,'IMG'.d("!! (dir.pics .pic)concat@src")
 			)
 			
@@ -177,9 +183,15 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 			.d("#.innerHTML=.details:sanitizeOut; paste safehtml")
 			.ui(".details=#:sanitizeIn")
 			
-			,'LABEL.expiry'.d(""
-				,'INPUT.date type=date'.d("!! .date:dateonly@value").ui(".date=#:value")
+			,'service'.d(""
+				,'LABEL.expiry'.d(""
+					,'INPUT.date type=date'.d("!! .date:dateonly@value").ui(".date=#:value")
+				)
+				,'LABEL.link'.d(""
+					,'INPUT type=url'.ui(".link=#:value")
+				)
 			)
+			
 			
 			,'bar'.d(""
 			
@@ -188,7 +200,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				,'BUTTON.done'.ui(`
 					? (.date .tags .title .price .html)! msg.error.incomplete:alert;
 					? $pics:! .pics=($pics:img.upload .pics)? msg.error.upload:alert;
-					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .thumb .pics .details)@content) )api:query msg.error.connection:alert;
+					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .thumb .pics .details .link)@content) )api:query msg.error.connection:alert;
 					.article=.result.0.article $edit=
 				`)//? (.pics $pics)? msg.error.nopics:alert;
 			)
@@ -226,7 +238,6 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		)
 		
 		,"LABEL.challenge".d('? $challenge'
-				// ? .otpwd=#:value,valid.otpwd msg.error.otpwd:alert;
 			,"INPUT".d("#:focus").ui(`
 				? .verify=( "Auth.verify .phone .otpwd )api:query msg.error.wrong:alert;
 				? .value=.verify.0:auth.save;
@@ -254,6 +265,14 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				..value=.info;
 			`)
 		)
+	),
+	
+	Confirm
+	:modal("! .message"
+		,'bar'.d(""
+			,'ACTION.cancel'.ui(".value=:?")
+			,'BUTTON.ok'.ui(".value=:!")
+		)
 	)
 	
 
@@ -261,7 +280,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 
 .DICT({
 	
-	msg,
+	msg, html,
 	
 	base: location.origin+"/#!",
 	
@@ -275,20 +294,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	
 	plaintext: ctrlv => ctrlv.getData('text/plain'),
 	safehtml: ctrlv => ctrlv.getData('text/plain')//'application/rtf'
-	
-/*
-	state:"new like interested definite",
-	"article-seed": {price:1500}, //, date:(new Date()).toISOString().substring(0,10)"2021-03-17T19:00"
-	
-	touch
-	:'touch'.d("!! .state"
-		,'UL'.d("? $?; * state"
-			,'LI'.d("! .state").ui("..state=.")
-		)
-	).ui(""),	
-	
-*/	
-	
+
 })
 
 .FUNC({ //set
@@ -319,8 +325,6 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	
 	operate:{
 		"here?": (value,alias,node) => { if(value)setTimeout(_=>node.scrollIntoView(),100); },
-		
-		
 		bg: (value,alias,node) => { node.style.backgroundImage="url('"+value+"')"; }
 	}
 
