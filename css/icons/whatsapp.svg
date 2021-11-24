@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   version="1.1"
+   viewBox="0 0 26.458335 26.458332"
+   id="svg4650"
+   sodipodi:docname="whatsapp.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview4652"
+     showgrid="false"
+     inkscape:zoom="7.12"
+     inkscape:cx="82.019328"
+     inkscape:cy="48.567416"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g4648" />
+  <defs
+     id="defs4632">
+    <linearGradient
+       id="linearGradient2628"
+       x2="1"
+       gradientTransform="matrix(0,-11.017714,11.017714,0,-73.772359,211.64931)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#20b038"
+         offset="0"
+         id="stop4622" />
+      <stop
+         stop-color="#60d66a"
+         offset="1"
+         id="stop4624" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient2630"
+       x2="1"
+       gradientTransform="matrix(0,-11.41266,11.41266,0,-73.772326,211.84826)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#f9f9f9"
+         offset="0"
+         id="stop4627" />
+      <stop
+         stop-color="#fff"
+         offset="1"
+         id="stop4629" />
+    </linearGradient>
+  </defs>
+  <metadata
+     id="metadata4634">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="matrix(2.3181002,0,0,2.3181002,184.24081,-464.6264)"
+     id="g4648">
+    <g
+       id="g4665"
+       transform="matrix(1.0359513,0,0,1.0359513,2.6522135,-7.4110585)">
+      <path
+         style="fill:url(#linearGradient2628);stroke-width:0.16306596"
+         inkscape:connector-curvature="0"
+         id="path4638"
+         d="m -79.210739,206.09203 c -3.42e-4,0.96207 0.25104,1.90135 0.729035,2.7294 l -0.774824,2.82903 2.895073,-0.75912 c 0.797654,0.43466 1.695723,0.66413 2.609708,0.66442 h 0.0024 c 3.009872,0 5.459774,-2.44925 5.461079,-5.45944 5.71e-4,-1.45881 -0.56698,-2.83034 -1.598128,-3.86238 -1.030984,-1.0319 -2.402124,-1.6005 -3.863195,-1.60118 -3.010035,0 -5.459938,2.44892 -5.461242,5.45928 m 5.461405,5.46369 h 5.7e-5 -5.7e-5 c -5.8e-5,0 -1.15e-4,0 0,0" />
+      <path
+         style="fill:#ffffff;fill-rule:evenodd;stroke-width:0.16306596"
+         inkscape:connector-curvature="0"
+         id="path4642"
+         d="m -75.162464,203.72594 c -0.105904,-0.2354 -0.217334,-0.24011 -0.31806,-0.24426 -0.08243,-0.004 -0.176714,-0.003 -0.270885,-0.003 -0.09428,0 -0.24742,0.0354 -0.37691,0.17682 -0.129607,0.14146 -0.494775,0.4834 -0.494775,1.17882 0,0.6955 0.506581,1.36751 0.577155,1.46191 0.0707,0.0942 0.977891,1.56701 2.414518,2.13355 1.194067,0.47086 1.437051,0.37721 1.696212,0.35361 0.259161,-0.0235 0.836316,-0.34182 0.954066,-0.6719 0.117814,-0.33003 0.117814,-0.61293 0.08249,-0.67201 -0.03532,-0.0589 -0.129606,-0.0943 -0.27095,-0.16492 -0.1414,-0.0707 -0.836317,-0.41269 -0.965856,-0.45986 -0.129607,-0.0471 -0.223841,-0.0707 -0.318126,0.0709 -0.09423,0.14134 -0.364941,0.45963 -0.447436,0.55392 -0.08243,0.0944 -0.164925,0.10625 -0.306271,0.0356 -0.141399,-0.0709 -0.596658,-0.22005 -1.136716,-0.70153 -0.420221,-0.37466 -0.703891,-0.83734 -0.786386,-0.97887 -0.08243,-0.14134 -0.0088,-0.2179 0.06207,-0.28838 0.06351,-0.0633 0.1414,-0.16504 0.2121,-0.24753 0.07053,-0.0826 0.09406,-0.14146 0.14117,-0.23575 0.04717,-0.0943 0.02359,-0.17689 -0.01174,-0.2476 -0.03538,-0.0707 -0.31007,-0.7697 -0.435761,-1.04921" />
+    </g>
+  </g>
+</svg>

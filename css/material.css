@@ -70,8 +70,10 @@ action{
 }
 
 toggle {
+	position: absolute;
 	display: block;
 	font-size:.8em;
+	/* margin: .5rem 0; */
 }
 
 label>icon{
@@ -192,8 +194,14 @@ tab.selected {
 	border-bottom-color: inherit;
 }
 
-article {padding: 1rem;}
+article {padding: 3rem 1rem;}
 
+article.focused {
+  background-color: white;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
+  margin-bottom: .5rem;
+  box-sizing: border-box;
+}
 
 button {
 	padding: .5em 1em;
@@ -249,7 +257,7 @@ input, button, [contenteditable] {
  }
 
 .bar>icon{
-	font-size: 1.5em;
+	font-size: 2em;
 }
 
 label::before {

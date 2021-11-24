@@ -1,7 +1,7 @@
 body{font: normal .9rem 'Montserrat',sans-serif;}
 .home::before {content: "Crew!"; font-weight: bold; margin: .5em;}
 
-.tags {font-size: .8em;/* margin: 1em 0; */}
+.tags {font-size: .8em;margin: 1rem 0 1rem 90px;}
 .tags.edit { word-spacing: .8em; }
 
 .tag {
@@ -36,17 +36,20 @@ body{font: normal .9rem 'Montserrat',sans-serif;}
 	hyphens: auto;
 	margin: 1em 0;
 	clear: both;
+	overflow-x: hidden;
 }
 
 .price {
 	margin-left: 1em;
 	padding: .2em .5em;
-	background: aquamarine;
+	background: lavender;
+	border-radius: .25em;
 }
 
 .price>input{
 	max-width: 4em;
 	text-align:right;
+	background: none;
 }
 
 
@@ -101,8 +104,11 @@ article>.auth{
 
 .more>.bar {
 	position: absolute;
-	right: 0;
-	bottom: 0;
+	right: 1rem;
+	bottom: .5rem;
+	/* display: flex; */
+	/* align-items: center; */
+	gap: 1e;
 }
 
 
@@ -114,7 +120,8 @@ article>.auth{
 .member {
 	display: inline-block;
 	margin: .4em .4em 0 0;
-	background: lavender;
+	/* background: lavender; */
+	border: 1px solid gold;
 	padding: .1em .5em;
 	line-height: 1.5em;
 	border-radius: 1em;
@@ -122,7 +129,7 @@ article>.auth{
 }
 
 .member.me::after {
-	padding: 0.2em .5em;
+	padding: 0.25em .5em;
 	margin-right: -0.5em;
 	margin-left: .25em;
 }
@@ -156,7 +163,7 @@ article>.auth{
 .venue {
 	flex: 1;
 	white-space: pre-wrap;
-	font: italic .9em sans-serif;
+	font: normal.9em sans-serif;
 }
 
 
@@ -253,7 +260,7 @@ img.avatar {
 }
 
 .content {
-  position: relative;
+  /* position: relative; */
 }
 
 
@@ -291,11 +298,11 @@ section.crew {
   /* float: right; */
   /* margin: -1rem -.5rem 1rem 0; */
   float: left;
-  margin: -.5rem 1rem 1rem -.25em;
+  margin: -1.5rem 1rem 1rem -.25em;
 }
 
 .content>h3 {
-  margin: .5rem 0;
+  margin: .5rem 0 .5rem 90px;
 }
 
 .service>.link {
@@ -308,4 +315,35 @@ section.crew {
   display: flex;
   margin: 2em 0;
   align-items: flex-end;
+}
+
+.discuss {}
+
+.hrefs>a[href] {
+  display: inline-block;
+  /* background: center no-repeat; */
+  height: 2rem;
+  width: 2rem;
+  background-size: contain;
+  margin-left: 1rem;
+}
+
+a.telegram {/* content: "Telegram"; */}
+
+.bar>.joined {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+a.telegram {
+  background: url(icons/telegram.svg) center no-repeat;
+}
+
+a.whatsapp {
+  background: url(icons/whatsapp.svg) center no-repeat;
+}
+
+.more>label {
+  margin: 1em 0;
+  display: block;
 }

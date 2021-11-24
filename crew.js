@@ -30,7 +30,13 @@ const server = "https://orders.saxmute.one/luna/",
 	ava	= imgtaker(server+"php/upload1.php",{maxw:640,maxh:640});
 
 const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDateString' : 'toLocaleString'](),
-	dateonly = str => str && str.split(" ")[0];
+	dateonly = str => str && str.split(" ")[0],
+	
+	vendor = (vendors => href => vendors.reduce( (m,a)=> m||href.startsWith(a[0])&&a[1],false ))([
+		["https://chat.whatsapp.com/","whatsapp"],
+		["https://t.me/","telegram"]
+	]);
+	
 
 const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").ui(".what=#.innerText").FOR({what});
 
@@ -66,7 +72,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 .DICT({
 	
 	Article
-	:'ARTICLE'.d("& .content@; $edit=.; here? .?=( $search.article .article )eq"
+	:'ARTICLE'.d("here? .?=( $search.article .article )eq; & .content@; $?=. $edit=."
 	
 		,'auth'.d("$edit; ? (.author $auth.author)eq"
 			,'ICON.edit'.d("? $edit:!").ui("$edit=:!")
@@ -74,11 +80,11 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		
 		,'content'
 		
-		.d("? $edit:!; $?=."
+		.d("? $edit:!; "
 		
 			,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")//d("! Avatar")
 		
-			,'H3'.d("! .title; #:focus")
+			,'H3'.d("! .title; #:focus").ui("$?=:!")
 		
 			,'tags'.d("* .tags:split@tag"
 				,'tag'.d("! .tag").ui("$search=(.tag)")
@@ -104,6 +110,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				)
 				
 				,'bar'.d("$joined=($crew $auth.author)filter:??"
+				
 					,"ICON.share".ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
 				
 					,'BUTTON.join'.d("? $joined:!")////$auth.info $auth.info
@@ -113,12 +120,18 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 						? $crew=( @PUT"Member .article)api:query msg.error.connection:alert;
 					?`)
 					
-					,'A.discuss'.d("? $joined; !! .link@href")
+					,'joined'.d(`? $joined; ? .crewonly=("Crewonly_ .article)api:query`
+						,'hrefs'.d("* .crewonly.0.content.hrefs:hrefsplit@href"
+							,'A'.d("? .title=.href:vendor; !? .title@; !! .href .title")
+						)
+					)					
 					
 				).u('?')
 				
 			)
+			
 			,'TOGGLE'.ui('? $?=$?:!;').a("!? $?@on")
+			
 			
 /*			
 			,'attitude'.d("* (`Attitude .article)db"
@@ -183,30 +196,32 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 			.d("#.innerHTML=.details:sanitizeOut; paste safehtml")
 			.ui(".details=#:sanitizeIn")
 			
-			,'service'.d(""
+			,'more'.d(""
+			
+				,'LABEL.link'.d(""
+					,'INPUT type=url'
+					.d(`? .article:! $!=("Crewonly_ .article)api:query; !! $!.0.content.hrefs@value`)
+					.ui(`? ( @POST"Crewonly (.article (#:value@hrefs)@content) )api:query`)
+				)
+				
 				,'LABEL.expiry'.d(""
 					,'INPUT.date type=date'.d("!! .date:dateonly@value").ui(".date=#:value")
 				)
-				,'LABEL.link'.d(""
-					,'INPUT type=url'.ui(".link=#:value")
+				
+				,'bar'.d(""
+				
+					,'ACTION.cancel'.ui("$edit= $create=")
+				
+					,'BUTTON.done'.ui(`
+						? (.date .tags .title .price .html)! msg.error.incomplete:alert;
+						? $pics:! .pics=($pics:img.upload .pics)? msg.error.upload:alert;
+						? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .thumb .pics .details .link)@content) )api:query msg.error.connection:alert;
+						.article=.result.0.article $edit=
+					`)//? (.pics $pics)? msg.error.nopics:alert;
 				)
 			)
-			
-			
-			,'bar'.d(""
-			
-				,'ACTION.cancel'.ui("$edit= $create=")
-			
-				,'BUTTON.done'.ui(`
-					? (.date .tags .title .price .html)! msg.error.incomplete:alert;
-					? $pics:! .pics=($pics:img.upload .pics)? msg.error.upload:alert;
-					? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .thumb .pics .details .link)@content) )api:query msg.error.connection:alert;
-					.article=.result.0.article $edit=
-				`)//? (.pics $pics)? msg.error.nopics:alert;
-			)
-			
 		)
-	),
+	).a("!? ($? $edit)?@focused"),
 	
 	Avatar
 	:"IMG".d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
@@ -342,12 +357,14 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	},
 	
 	convert:{
-		img, ava, auth, date, dateonly,
+		img, ava, auth, date, dateonly, vendor,
 		split	:str=>str?str.split(" "):[],
 		
 		sanitizeIn: elem=>elem.innerText.trim(), //
 		sanitizeOut: html=>html&&html.trim(),
 		tagset: txt=>txt.split("\n").map(line=>line.split(" ")),
+		
+		hrefsplit: str => str&&str.split(/\s+/g),
 		
 		valid :{
 			phone: str => {

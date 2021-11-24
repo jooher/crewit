@@ -1,8 +1,8 @@
 button,tap{background:gold}
-etage {/* background: ghostwhite */}
+etage {background: ghostwhite;}
 attic	{box-shadow: 0 4px 6px rgb(0 0 0 / 25%);}
 h3	{color: darkslategray;}
-article{border-bottom: .4em solid lightgray}
+article{border-bottom: 1px solid lavender;}
 toggle, icon { color: gray; }
 
 [contenteditable]{background: lavender;}
@@ -10,3 +10,13 @@ toggle, icon { color: gray; }
 .member.me::after {background-color: gold}
 
 section.create {/* background: lavender; */}
+
+.tags {
+  color: dodgerblue;
+}
+
+.tags {}
+
+.content>.thumb {
+  /* border: 4px solid white; */
+}
