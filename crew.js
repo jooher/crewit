@@ -1,6 +1,11 @@
 import "./0.5.js"; //https://dap.js.org/0.5.js
-
 import msg from "./localized/ru.js";
+import wraps from "./jsm/wraps.js";
+import wait from "./jsm/modal.js";
+import restAPI	from "./jsm/rest.js";
+import httpAuth	from "./jsm/auth.js";
+import imgtaker	from "./jsm/imgtake.js";
+
 
 const	grab	= src	=> Object.fromEntries(
 		[...(src.parentNode.removeChild(src)).children]
@@ -8,37 +13,39 @@ const	grab	= src	=> Object.fromEntries(
 		.map(n=>[n.getAttribute("name"),n])
 	),
 		
-	html	= grab(document.getElementById("data"));
+	html	= grab(document.getElementById("data")),
 
 	
-import wraps from "./jsm/wraps.js";
-import wait from "./jsm/modal.js";
-
-const scrim = 'scrim'.ui('value :?'),
-	modal = (...dialog) => 'modal'.d('top',scrim,'dialog'.d(...dialog)).u("value .value; kill");
+	scrim = 'scrim'.ui('value :?'),
+	modal = (...dialog) => 'modal'.d('top',scrim,'dialog'.d(...dialog)).u("value .value; kill"),
 
 
-import restAPI	from "./jsm/rest.js";
-import httpAuth	from "./jsm/auth.js";
-import imgtaker	from "./jsm/imgtake.js";
-
-const server = "https://orders.saxmute.one/luna/",
 	headers= {  }, //"Content-Type":"application/json;charset=utf-8"
+	server = "https://orders.saxmute.one/luna/",
 	auth	= httpAuth( headers, u => 'Basic '+ btoa([u.author,u.token].join(":")) ),
 	api	= restAPI( {base:server + "php/data.php?", headers} ),
 	img	= imgtaker(server+"php/upload1.php",{maxw:1280,maxh:720}),
-	ava	= imgtaker(server+"php/upload1.php",{maxw:640,maxh:640});
+	ava	= imgtaker(server+"php/upload1.php",{maxw:640,maxh:640}),
 
-const	date = d => d && new Date(d)[d.split(" ").pop()=='00:00:00' ? 'toLocaleDateString' : 'toLocaleString'](),
+	date = d => d && new Date(d)[d.split(" ").pop()==='00:00:00' ? 'toLocaleDateString' : 'toLocaleString'](),
 	dateonly = str => str && str.split(" ")[0],
+
 	
 	vendor = (vendors => href => vendors.reduce( (m,a)=> m||href.startsWith(a[0])&&a[1],false ))([
 		["https://chat.whatsapp.com/","whatsapp"],
 		["https://t.me/","telegram"]
-	]);
+	]),
 	
 
-const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").ui(".what=#.innerText").FOR({what});
+	edit = what => 'edit.what contenteditable'
+		.d("! .what; paste plaintext")
+		.ui(".what=#.innerText")
+		.FOR({what})
+			
+	;
+
+
+
 
 'APP'.d(""
 	,'PAGE'.d("$auth=:auth.load $scheduled= $create= $tagset= $search=( .article .author .member .tag ); u!"
@@ -56,7 +63,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 			)
 		
 			,'submenu'.d('? $?; Badge( $auth.author )'
-				,'TAP.add'.ui("$create=:!")
+				,'TAP.add'.ui("? Confirm( html.create@message ):wait; $create=:!")
 				,'ICON.logout'.ui("$auth=:auth.quit")
 			).u("$?=")
 	
