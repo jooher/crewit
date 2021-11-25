@@ -14,8 +14,8 @@ const	grab	= src	=> Object.fromEntries(
 import wraps from "./jsm/wraps.js";
 import wait from "./jsm/modal.js";
 
-const scrim = "scrim".ui('value :?'),
-	modal = (...dialog) => "modal".d('top',scrim,"dialog".d(...dialog)).u("value .value; kill");
+const scrim = 'scrim'.ui('value :?'),
+	modal = (...dialog) => 'modal'.d('top',scrim,'dialog'.d(...dialog)).u("value .value; kill");
 
 
 import restAPI	from "./jsm/rest.js";
@@ -92,7 +92,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 					,'tag'.d("! .tag").ui("$search=(.tag)")
 				)
 				
-			).ui("$?=:!")
+			).ui("$?=$?:!")
 		
 			
 			,'html'.d("#.innerHTML=.html:sanitizeOut")
@@ -102,7 +102,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				,'price'.d("! .price").ui(".buy=$")
 			)
 			
-			,"more".d('? $?; $crew=("Members .article)api:query'
+			,'more'.d('? $?; $crew=("Members .article)api:query'
 			
 				,'pics'.d("* .pics"
 					,'IMG'.d("!! (dir.pics .pics)concat@src")
@@ -116,7 +116,7 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 				
 				,'bar'.d("$joined=($crew $auth.author)filter:??"
 				
-					,"ICON.share".ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
+					,'ICON.share'.ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
 				
 					,'BUTTON.join'.d("? $joined:!")////$auth.info $auth.info
 					.ui(`	? .confirm=Confirm( html.join@message ):wait;
@@ -234,10 +234,10 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	).a("!? ($? $edit)?@focused"),
 	
 	Avatar
-	:"IMG".d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
+	:'IMG'.d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
 	
 	Badge
-	:"badge".d('* ("Author .author)api:query'
+	:'badge'.d('* ("Author .author)api:query'
 	
 		,'short'.d("*@ .info"
 			,'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat")//d("! Avatar")
@@ -254,27 +254,27 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	Login
 	:modal('$challenge='
 		
-		,"LABEL.phone".d(''
-			,"INPUT.phone type=tel".d("#:focus").ui(`
+		,'LABEL.phone'.d(""
+			,'INPUT.phone type=tel'.d("#:focus").ui(`
 				? .phone=#:value,valid.phone msg.error.phone:alert;
-				? $challenge=( "Auth.challenge .phone )api:query msg.error.connection:alert;
-				.otpwd=$challenge.0.otpwd;
+				? $challenge=( Auth@ .phone )uri:query msg.error.connection:alert;
+				.otpwd=$challenge.otpwd;
 			?`)
 		)
 		
-		,"LABEL.challenge".d('? $challenge'
-			,"INPUT".d("#:focus").ui(`
-				? .verify=( "Auth.verify .phone .otpwd )api:query msg.error.wrong:alert;
-				? .value=.verify.0:auth.save;
+		,'LABEL.challenge'.d('? $challenge'
+			,'INPUT'.d("#:focus").ui(`
+				? .verify=( Auth@ .phone .otpwd )uri:query msg.error.wrong:alert;
+				? .value=.verify:auth.save;
 			`)
 		)
 	),
 	
 	Info
-	:modal(''
+	:modal(""
 		,'profile'.d('$?=; *@ ("Author .author)api:query'
 	
-			,"form".d('*@ .info=(.info ())?; '
+			,'form'.d('*@ .info=(.info ())?'
 			
 				,'LABEL.avatar.filepicker'.d("$pic=; a!"
 				
@@ -282,10 +282,10 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 					
 				).a("bg (dir.pics@ ($pic.0 .pic `default.jpg)? )concat")
 				
-				,"alias skills links".split(" ").map(edit)
+				,'alias skills links'.split(" ").map(edit)
 			).u("$?=(); ?")
 			
-			,"BUTTON.ok".ui(`
+			,'BUTTON.ok'.ui(`
 				? $?:! (@POST"Author (.info) )api:query msg.error.connection:alert;
 				..value=.info;
 			`)
@@ -308,6 +308,8 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 	msg, html,
 	
 	base: location.origin+"/#!",
+	
+	Auth: server+"php/auth.php?",
 	
 	dir:{
 		pics: server+"content/",
