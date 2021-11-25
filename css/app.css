@@ -1,7 +1,7 @@
 body{font: normal .9rem 'Montserrat',sans-serif;}
-.home::before {content: "Crew!"; font-weight: bold; margin: .5em;}
+.home::before {content: "Crew it!";font-weight: bold;margin: .5em;}
 
-.tags {font-size: .8em;margin: 1rem 0 1rem 90px;}
+.tags {font-size: .8em;/* margin: 1rem 0 1rem 90px; */}
 .tags.edit { word-spacing: .8em; }
 
 .tag {
@@ -36,7 +36,8 @@ body{font: normal .9rem 'Montserrat',sans-serif;}
 	hyphens: auto;
 	margin: 1em 0;
 	clear: both;
-	overflow-x: hidden;
+	max-height: 32em;
+	overflow: hidden;
 }
 
 .price {
@@ -96,6 +97,8 @@ article>.auth{
 
 .more>section {
 	margin: 2em 0;
+	max-height: 120em;
+	overflow: hidden;
 }
 
 .more>section::before {
@@ -289,20 +292,27 @@ section.crew {
   display: inline-block;
 }
 
-.content>.thumb {
+.content>header{
+	padding-left:90px;
+	padding-bottom: .5rem;
+	position: relative;
+	/* max-height: 8em; */
+	/* overflow: hidden; */
+}
+
+header>.thumb {
   width: 80px;
   height: 80px;
   background: center no-repeat;
   background-size: cover;
   border-radius: 50%;
+  position: absolute;
+  left: -.25rem;
+  bottom: 0;
   /* float: right; */
   /* margin: -1rem -.5rem 1rem 0; */
-  float: left;
-  margin: -1.5rem 1rem 1rem -.25em;
-}
-
-.content>h3 {
-  margin: .5rem 0 .5rem 90px;
+  /* float: left; */
+  /* margin: -1.5rem 1rem 1rem -.25em; */
 }
 
 .service>.link {
@@ -346,4 +356,9 @@ a.whatsapp {
 .more>label {
   margin: 1em 0;
   display: block;
+}
+
+header>h3, header>.tags {
+  max-height: 6em;
+  overflow: hidden;
 }

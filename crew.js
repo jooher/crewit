@@ -82,13 +82,18 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		
 		.d("? $edit:!; "
 		
-			,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")//d("! Avatar")
+			,'HEADER'.d(""
+			
+				,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")//d("! Avatar")
+			
+				,'H3'.d("! .title; #:focus")
+			
+				,'tags'.d("* .tags:split@tag"
+					,'tag'.d("! .tag").ui("$search=(.tag)")
+				)
+				
+			).ui("$?=:!")
 		
-			,'H3'.d("! .title; #:focus").ui("$?=:!")
-		
-			,'tags'.d("* .tags:split@tag"
-				,'tag'.d("! .tag").ui("$search=(.tag)")
-			)
 			
 			,'html'.d("#.innerHTML=.html:sanitizeOut")
 			
@@ -143,15 +148,20 @@ const edit = what => 'edit.what contenteditable'.d("! .what; paste plaintext").u
 		
 		.d("? $edit; $pics= $tags="
 		
-			,'LABEL.thumb'.d("$thumb=; a!"
+			,'HEADER'.d(""
 			
-				,'INPUT type=file'.ui("? $thumb=#.files:ava.take,ava.upload; .thumb=$thumb.0")
+				,'LABEL.thumb'.d("$thumb=; a!"
 				
-			).a("bg (dir.pics@ ($thumb.0 .thumb .pics.0 `default.jpg)? )concat")
+					,'INPUT type=file'.ui("? $thumb=#.files:ava.take,ava.upload; .thumb=$thumb.0")
+					
+				).a("bg (dir.pics@ ($thumb.0 .thumb .pics.0 `default.jpg)? )concat")
 
-			,'H3 contenteditable'.d("! .title; paste plaintext; #:focus").ui(".title=#:value")
+				,'H3 contenteditable'.d("! .title; paste plaintext; #:focus").ui(".title=#:value")
+			
+				,edit('tags')
+				
+			)
 		
-			,edit('tags')
 /*			
 			,'addtags'.d("? $tags; ? $tagset $tagset=dir.tagset:query,tagset"
 				,'tags'.d("* $tagset"

@@ -201,6 +201,7 @@ article.focused {
   box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
   margin-bottom: .5rem;
   box-sizing: border-box;
+  /* max-height: unset; */
 }
 
 button {
