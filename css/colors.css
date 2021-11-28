@@ -6,18 +6,12 @@ article{border-bottom: 1px solid lavender;/* max-height: 32em; *//* overflow-y: 
 toggle, icon { color: gray; }
 
 [contenteditable]{background: lavender;}
-.badge>.skills {color: gray}
-.member.me::after {background-color: gold}
 
-section.create {/* background: lavender; */}
+.tags { color: dodgerblue; }
+.member.me {background-color: gold}
 
-.tags {
-  color: dodgerblue;
-  /* margin-bottom: .5em; */
-}
-
-.tags {}
-
-.content>.thumb {
-  /* border: 4px solid white; */
-}
+.level,
+.level0 {background-color: lightgreen;}
+.level1 {background-color: lightskyblue;}
+.level2 {background-color: lightsalmon;}
+.level3 {background-color: black;color: wheat;}

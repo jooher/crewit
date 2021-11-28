@@ -45,6 +45,8 @@ const	dap=(Env=>
 	
 		"&"	: values=> Object.assign(values.pop(),...values),
 		
+		"*"	: values=>values.reverse(),
+		
 		"?"	: values=>{ for(let i=values.length;i--;)if(values[i])return values[i]; },			/// any - first non-empty //return false; 
 		"!"	: values=>{ for(let i=values.length;i--;)if(!values[i])return null; return values[0]; },	/// all - succeeds if empty token found
 		"?!"	: values=>values.pop() ? values[1] : values[0], // if-then-else
@@ -704,7 +706,8 @@ const	dap=(Env=>
 				function makeExpr(str){
 					const
 						a = str.split(">"),
-						feed = makeFeed(brackets[a[0]].split(TOKENS).reverse()),
+						tokens = brackets[a[0]],
+						feed = makeFeed(tokens ? tokens.split(TOKENS).reverse() : O ),
 						flatten = a[1] && ( a[1].charAt(0)=="."
 							? makeAccessor(a[1].substr(1))
 							: context.ns.reach(a[1],FUNCS.FLATTEN)

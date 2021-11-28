@@ -275,3 +275,9 @@ label::before {
 input[type=date] {
   width: 9em;
 }
+
+.form>label {
+  margin: 2em 0;
+  /* background: red; */
+  display: block;
+}

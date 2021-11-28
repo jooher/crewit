@@ -26,7 +26,8 @@
     position: relative;
     margin: 2em;
     display: inline-block;
-    max-width: 460px;
+    min-width: 60%;
+    max-width: 80%;
 }
 
 

@@ -122,12 +122,16 @@ article>.auth{
 
 .member {
 	display: inline-block;
+	max-width: 8em;
+	vertical-align: baseline;
+	/* overflow: hidden; */
+	vertical-align: top;
 	margin: .4em .4em 0 0;
 	/* background: lavender; */
-	border: 1px solid gold;
+	/* border: 2px solid gray; */
 	padding: .1em .5em;
 	line-height: 1.5em;
-	border-radius: 1em;
+	border-radius: .4em;
 	overflow: hidden;
 }
 
@@ -220,9 +224,11 @@ img.avatar {
 
 .badge{
 	padding-left: 5em;
+	min-height: 4em;
+	/* min-width: 14em; */
 }
 
-.short>.avatar {
+.badge>.avatar {
 	height: 4em;
 	width: 4em;
 	position: absolute;
@@ -231,15 +237,6 @@ img.avatar {
 
 .badge>.alias {
 	font-weight: bold;
-}
-
-.activity>li {
-	display: inline-block;
-	margin-right: 1em;
-}
-
-.activity {
-	margin: .5em 0;
 }
 
 .submenu>.logout {
@@ -361,4 +358,17 @@ a.whatsapp {
 header>h3, header>.tags {
   max-height: 6em;
   overflow: hidden;
+}
+
+li.activity {display: block; margin:1em 0}
+
+.activity>.date, .activity>.member{
+  display: inline;
+  vertical-align: baseline;
+  margin-right: 1em;
+}
+
+.activities {
+  padding: 0;
+  margin: 2e m 0;
 }

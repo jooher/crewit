@@ -14,7 +14,8 @@ const	grab	= src	=> Object.fromEntries(
 	),
 		
 	html	= grab(document.getElementById("data")),
-
+	
+	tsv = txt => txt.split("\n").map(str => str.split("\t")),
 	
 	scrim = 'scrim'.ui('value :?'),
 	modal = (...dialog) => 'modal'.d('top',scrim,'dialog'.d(...dialog)).u("value .value; kill"),
@@ -109,7 +110,7 @@ const	grab	= src	=> Object.fromEntries(
 				,'price'.d("! .price").ui(".buy=$")
 			)
 			
-			,'more'.d('? $?; $crew=("Members .article)api:query'
+			,'more'.d('? $?; $crew=("Members .article)api:query .joined='
 			
 				,'pics'.d("* .pics"
 					,'IMG'.d("!! (dir.pics .pics)concat@src")
@@ -118,19 +119,23 @@ const	grab	= src	=> Object.fromEntries(
 				,'SECTION.details'.d("? .details; ! .details")
 				
 				,'SECTION.crew'.d("*@ $crew"
-					,'member'.d("!! (.info.alias .author)? .info.skills@title; !? (.author $auth.author)eq@me")
+					,'member'.d('!? .me=(.author $auth.author)eq (`level .crew.level)concat; ..joined=(..joined .me)?'
+						,'alias'.d("! (.info.alias .author)?")
+						,'skill'.d("! .crew.skill")
+					).ui("About(.author)")
 				)
 				
-				,'bar'.d("$joined=($crew $auth.author)filter:??"
+				,'bar'.d("$joined=." //($crew $auth.author)filter:??
 				
 					,'ICON.share'.ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
 				
 					,'BUTTON.join'.d("? $joined:!")////$auth.info $auth.info
-					.ui(`	? .confirm=Confirm( html.join@message ):wait;
+					.ui(`	? Confirm( html.join@message ):wait;
 						? $auth $auth=Login():wait;
 						? $auth.info $auth.info=Info($auth.author):wait;
-						? $crew=( @PUT"Member .article)api:query msg.error.connection:alert;
-					?`)
+						? $joined=Skill(()@value):wait;
+						? $crew=( @POST"Member (.article $joined@crew) )api:query msg.error.connection:alert;
+					`)
 					
 					,'joined'.d(`? $joined; ? .crewonly=("Crewonly_ .article)api:query`
 						,'hrefs'.d("* .crewonly.0.content.hrefs:hrefsplit@href"
@@ -143,7 +148,6 @@ const	grab	= src	=> Object.fromEntries(
 			)
 			
 			,'TOGGLE'.ui('? $?=$?:!;').a("!? $?@on")
-			
 			
 /*			
 			,'attitude'.d("* (`Attitude .article)db"
@@ -232,7 +236,7 @@ const	grab	= src	=> Object.fromEntries(
 					,'BUTTON.done'.ui(`
 						? (.date .tags .title .price .html)! msg.error.incomplete:alert;
 						? $pics:! .pics=($pics:img.upload .pics)? msg.error.upload:alert;
-						? .result=( @POST"Article (.article .date .tags (.title .price .venue .html .thumb .pics .details .link)@content) )api:query msg.error.connection:alert;
+						? .result=( @POST"Article (.article .title .tags .date (.price .venue .html .thumb .pics .details .link)@content) )api:query msg.error.connection:alert;
 						.article=.result.0.article $edit=
 					`)//? (.pics $pics)? msg.error.nopics:alert;
 				)
@@ -244,13 +248,23 @@ const	grab	= src	=> Object.fromEntries(
 	:'IMG'.d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
 	
 	Badge
-	:'badge'.d('* ("Author .author)api:query'
+	:'badge'.d('* ("Author .author)api:query; *@ .info'
+		,'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat")//d("! Avatar")
+		,'alias'.d("! .alias")
+		,'about'.d("! .about")
+	)//.ui("$auth.info=Info(.author):wait")
+	,
 	
-		,'short'.d("*@ .info"
-			,'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat")//d("! Avatar")
-			,'alias'.d("! .alias")
-			,'skills'.d("! .skills")
-		).ui("$auth.info=Info(.author):wait")
+	About
+	:modal('! Badge'
+	
+		,'UL.activities'.d('* ("Activities .author)api:query'
+			,'LI.activity'.d(''
+				,'date'.d("! .date:dateonly")
+				,'member'.d("! .crew.skill; !? (`level .crew.level)concat")
+				,'title'.d("! .title")
+			)
+		)
 		
 		,'activity'.d(""
 			,'LI.myarticles'.ui("$search=(.author)")
@@ -289,7 +303,15 @@ const	grab	= src	=> Object.fromEntries(
 					
 				).a("bg (dir.pics@ ($pic.0 .pic `default.jpg)? )concat")
 				
-				,'alias skills links'.split(" ").map(edit)
+				,'LABEL.alias'.d(''
+					,'INPUT'.d("!! .alias@value").ui(".alias=#:value")
+				)
+				
+				,'LABEL.about'.d(''
+					,'TEXTAREA'.d('! .about@value').ui(".about=#:value")
+				)
+				
+				//,'alias skills links'.split(" ").map(edit)
 			).u("$?=(); ?")
 			
 			,'BUTTON.ok'.ui(`
@@ -299,14 +321,24 @@ const	grab	= src	=> Object.fromEntries(
 		)
 	),
 	
+	Skill
+	:modal(""
+		,"LABEL.level".d(''
+			,"SELECT".d("* levels@; ! Option").ui(".value.level=#:value; ?")
+		)
+		,"LABEL.skill".d(''
+			,"INPUT".ui(".value.skill=#:value; ?")
+		)
+		,'BUTTON.ok'.ui("log .value")
+	),
+
 	Confirm
 	:modal("! .message"
 		,'bar'.d(""
 			,'ACTION.cancel'.ui(".value=:?")
 			,'BUTTON.ok'.ui(".value=:!")
 		)
-	)
-	
+	),
 
 })
 
@@ -325,6 +357,9 @@ const	grab	= src	=> Object.fromEntries(
 	},
 	
 	defaultpics: ["default.jpg"],
+	
+	Option: "OPTION".d("!! .0@value .1@"),
+	levels: tsv(html.levels.innerText),
 	
 	plaintext: ctrlv => ctrlv.getData('text/plain'),
 	safehtml: ctrlv => ctrlv.getData('text/plain')//'application/rtf'

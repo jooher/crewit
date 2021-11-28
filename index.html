@@ -36,12 +36,11 @@ h3:empty::before{content:"Заголовок"}
 .venue:empty::before{content:"Дата, время \AМесто, адрес"}
 .price::before{content:"₽ "}
 .crew::before{content:"Команда"}
-.member.me::after{content:"это я"}
+.member.me::after{/* content:"это я" */}
 
 .content>toggle::before{content:"Детали..."}
 .content>toggle.on::before{content:"Скрыть детали"}
 
-.edit.alias::before{content:"Имя или псевдоним"}
 .edit.skills::before{content:"Скилы (опыт, лицензии, разряды)"}
 .edit.links::before{content:"Страницы"}
 
@@ -50,6 +49,9 @@ label.expiry::before {content: "актуально до"}
 label.link::before {content: "Группа в Telegram/Whatsapp";}
 label.phone::before{content:"Ваш номер телефона"}
 label.challenge::before{content:"Код из СМС"}
+label.alias::before{content:"Имя или псевдоним"}
+label.level::before{content:"Я в этой теме"}
+label.skill::before{content:"Опыт по теме"}
 
 button.join::before{content:"Вписаться!"}
 button.done::before{content:"Готово"}
@@ -62,6 +64,13 @@ button.ok::before{content:"OK"}
 <body>
 
 <section id="data" style="display:none">
+
+<pre name="levels">
+0	новичок
+1	начинающий
+2	опытный
+3	профессионал
+</pre>
 
 	<article name="create">
 	<h3>Добавить мероприятие?</h3>
