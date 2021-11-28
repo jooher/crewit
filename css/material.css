@@ -59,7 +59,7 @@ icon::before, tap::before, action:empty::before{
 	content:attr(class);
 }
 
-tap {
+tap::before {
 	border-radius:50%
 }
 

@@ -54,7 +54,7 @@ body{font: normal .9rem 'Montserrat',sans-serif;}
 }
 
 
-.pics>img,.pics>canvas {max-height: 100%;margin: 0 2px;border-radius: 1em;}
+.pics>img,.pics>canvas {max-height: 100%;margin: 0 2px;/* border-radius: 1em; */}
 
 .pics:not(:empty) {
 	margin: 1rem -1rem;
@@ -223,33 +223,35 @@ img.avatar {
 }
 
 .badge{
-	padding-left: 5em;
-	min-height: 4em;
+	margin: 1em 0;
+	padding-left: 8em;
+	min-height: 8em;
 	/* min-width: 14em; */
 }
 
 .badge>.avatar {
-	height: 4em;
-	width: 4em;
+	height: 8em;
+	width: 8em;
 	position: absolute;
 	left: 1em;
 }
 
 .badge>.alias {
 	font-weight: bold;
+	margin: .5em 0;
 }
 
-.submenu>.logout {
+.auth>.logout {
 	position: absolute;
 	right: 1em;
-	bottom: 1em;
+	top: 1em;
 }
 
-.submenu>.add {
-	position: absolute;
-	top: .5rem;
-	right: .5rem;
+.auth>.add::before {
+	/* height: 2em; */
 	font-size: 2em;
+	/* width: 2em; */
+	display: inline-block;
 }
 
 
@@ -275,8 +277,8 @@ img.avatar {
 }
 
 label.avatar.filepicker {
-  width: 160px;
-  height: 160px;
+  /* width: 160px; */
+  /* height: 160px; */
   margin: 0 auto;
 }
 
@@ -370,5 +372,9 @@ li.activity {display: block; margin:1em 0}
 
 .activities {
   padding: 0;
+  max-height: 24em;
+  overflow-y: auto;
   margin: 2e m 0;
 }
+
+tap.add::after {content: "добавить";}

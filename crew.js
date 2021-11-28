@@ -60,13 +60,9 @@ const	grab	= src	=> Object.fromEntries(
 					,'INPUT'.d("# $search.tag@value").ui("$search=( #:text@tag )")
 				)
 				,'ICON.login'.d("? $auth:!").ui("$auth=Login():wait")
-				,'ICON.person'.d("? $auth").ui("$?=$?:!")
+				,'ICON.person'.d("? $auth").ui("About( $auth.author )")
 			)
 		
-			,'submenu'.d('? $?; Badge( $auth.author )'
-				,'TAP.add'.ui("? Confirm( html.create@message ):wait; $create=:!")
-				,'ICON.logout'.ui("$auth=:auth.quit")
-			).u("$?=")
 	
 		)
 
@@ -92,7 +88,7 @@ const	grab	= src	=> Object.fromEntries(
 		
 			,'HEADER'.d(""
 			
-				,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")//d("! Avatar")
+				,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")
 			
 				,'H3'.d("! .title; #:focus")
 			
@@ -125,7 +121,7 @@ const	grab	= src	=> Object.fromEntries(
 					).ui("About(.author)")
 				)
 				
-				,'bar'.d("$joined=." //($crew $auth.author)filter:??
+				,'bar'.d("$joined=."
 				
 					,'ICON.share'.ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
 				
@@ -148,13 +144,6 @@ const	grab	= src	=> Object.fromEntries(
 			)
 			
 			,'TOGGLE'.ui('? $?=$?:!;').a("!? $?@on")
-			
-/*			
-			,'attitude'.d("* (`Attitude .article)db"
-				,'like'.d("a!").ui(".like=.like:!; a!").a("!? .like")
-				,'ticket'.d("")
-			)
-*/
 		)
 		
 		.d("? $edit; $pics= $tags="
@@ -248,15 +237,26 @@ const	grab	= src	=> Object.fromEntries(
 	:'IMG'.d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
 	
 	Badge
-	:'badge'.d('* ("Author .author)api:query; *@ .info'
+	:'badge'.d(''//'*@ .info'
 		,'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat")//d("! Avatar")
 		,'alias'.d("! .alias")
 		,'about'.d("! .about")
-	)//.ui("$auth.info=Info(.author):wait")
-	,
+	),
+	
+	MyBadge
+	:'badge'.d(''
+		,'LABEL.avatar.filepicker'.d("$pic=; a!"
+			,'INPUT type=file'.ui("? $pic=#.files:ava.take,ava.upload; .pic=$pic.0")
+		).a("bg (dir.pics@ ($pic.0 .pic `default.jpg)? )concat")
+		,'alias contenteditable'.d("! .alias").ui(".alias=#:value")
+		,'about contenteditable'.d("! .about").ui(".about=#:value")
+	).u('(@POST"Author ($@info) )api:query msg.error.connection:alert'),
+	
 	
 	About
-	:modal('! Badge'
+	:modal('$?= .me=( .author $auth.author )eq'
+	
+		,'info'.d('* ("Author .author)api:query; *@ .info; ! (..me MyBadge Badge)?!').u('?')
 	
 		,'UL.activities'.d('* ("Activities .author)api:query'
 			,'LI.activity'.d(''
@@ -266,10 +266,16 @@ const	grab	= src	=> Object.fromEntries(
 			)
 		)
 		
+/*
 		,'activity'.d(""
 			,'LI.myarticles'.ui("$search=(.author)")
 			,'LI.mymemberships'.ui("$search=(.author@member)")
 		)
+*/		
+		,'auth'.d('? .me'
+			,'TAP.add'.ui("? Confirm( html.create@message ):wait; $create=:!")
+			,'ICON.logout'.ui("$auth=:auth.quit")
+		).u("$?=")
 	),
 	
 	Login
@@ -292,6 +298,12 @@ const	grab	= src	=> Object.fromEntries(
 	),
 	
 	Info
+	:modal(''
+		,"info".d('* ("Author .author)api:query; *@ .info; ! (..me MyBadge Badge)?!')
+		.u('..value=.info')
+	),
+	
+	_Info
 	:modal(""
 		,'profile'.d('$?=; *@ ("Author .author)api:query'
 	
@@ -311,7 +323,6 @@ const	grab	= src	=> Object.fromEntries(
 					,'TEXTAREA'.d('! .about@value').ui(".about=#:value")
 				)
 				
-				//,'alias skills links'.split(" ").map(edit)
 			).u("$?=(); ?")
 			
 			,'BUTTON.ok'.ui(`

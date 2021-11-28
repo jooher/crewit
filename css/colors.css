@@ -1,11 +1,11 @@
-button,tap{background:gold}
+button, tap::before{background:gold;margin-right: .25em;}
 etage {background: ghostwhite;}
 attic	{box-shadow: 0 4px 6px rgb(0 0 0 / 25%);}
 h3	{color: darkslategray;}
 article{border-bottom: 1px solid lavender;/* max-height: 32em; *//* overflow-y: hidden; */}
 toggle, icon { color: gray; }
 
-[contenteditable]{background: lavender;}
+[contenteditable]:empty{background: lavender;}
 
 .tags { color: dodgerblue; }
 .member.me {background-color: gold}
