@@ -104,7 +104,6 @@ const	grab	= src	=> Object.fromEntries(
 				)
 				
 			).ui("$?=$?:!")
-		
 			
 			,'html'.d("#.innerHTML=.html:sanitizeOut")
 			
@@ -130,6 +129,18 @@ const	grab	= src	=> Object.fromEntries(
 				
 				,'bar'.d("$joined=($crew $auth.author)filter:??"
 				
+					,'joined'.d(`? $joined; ? .crewonly=("Crewonly_ .article)api:query`
+					
+						,'ICON.delete'.ui(`
+							? Confirm( html.unjoin@message ):wait;
+							? (@DELETE"Member .aricle)api:query msg.error.connection:alert;
+						`)
+					
+						,'hrefs'.d("* .crewonly.0.content.hrefs:hrefsplit@href"
+							,'A'.d("? .title=.href:vendor; !? .title@; !! .href .title")
+						)
+					)
+					
 					,'ICON.share'.ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
 				
 					,'BUTTON.join'.d("? $joined:!")////$auth.info $auth.info
@@ -139,12 +150,6 @@ const	grab	= src	=> Object.fromEntries(
 						? $joined=Skill(()@value):wait;
 						? $crew=( @POST"Member (.article $joined@crew) )api:query msg.error.connection:alert;
 					`)
-					
-					,'joined'.d(`? $joined; ? .crewonly=("Crewonly_ .article)api:query`
-						,'hrefs'.d("* .crewonly.0.content.hrefs:hrefsplit@href"
-							,'A'.d("? .title=.href:vendor; !? .title@; !! .href .title")
-						)
-					)					
 					
 				).u('?')
 				

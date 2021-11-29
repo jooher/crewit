@@ -339,7 +339,7 @@ header>h3, header>.tags {
   overflow: hidden;
 }
 
-li.activity {display: block; margin:1em 0}
+li.activity {display: block;margin: 2em 0;}
 
 .activity>.date, .activity>.member{
   display: inline;
@@ -389,6 +389,6 @@ input.member {}
 	border-radius: .8em;
 	padding: 0 4px;
 	position: absolute;
-	top: -.8em;
-	right: -.8em;
+	right: 2px;
+	bottom: 2px;
 }
