@@ -15,10 +15,18 @@ const	grab	= src	=> Object.fromEntries(
 		
 	html	= grab(document.getElementById("data")),
 	
-	tsv = txt => txt.split("\n").map(str => str.split("\t")),
+	tsv = txt => txt.trim().split("\n").map(str => str.split("\t")),
 	
-	scrim = 'scrim'.ui('value :?'),
+	scrim = 'scrim'.ui('.value=:?'),
 	modal = (...dialog) => 'modal'.d('top',scrim,'dialog'.d(...dialog)).u("value .value; kill"),
+	
+	bar = (ok,cancel) => "bar".d(""
+		,'ACTION.cancel'.ui(cancel||'.value=:?')
+		,'BUTTON.ok'.ui(ok||'.value=:!')
+	),
+	
+	ok=bar(),
+	
 
 
 	headers= {  }, //"Content-Type":"application/json;charset=utf-8"
@@ -42,7 +50,6 @@ const	grab	= src	=> Object.fromEntries(
 		.d("! .what; paste plaintext")
 		.ui(".what=#.innerText")
 		.FOR({what})
-			
 	;
 
 
@@ -59,7 +66,7 @@ const	grab	= src	=> Object.fromEntries(
 					,'ICON.search'.d("")
 					,'INPUT'.d("# $search.tag@value").ui("$search=( #:text@tag )")
 				)
-				,'ICON.login'.d("? $auth:!").ui("$auth=Login():wait")
+				,'ICON.login'.d("? $auth:!").ui("? $auth=Login():wait") //; About( $auth.author )
 				,'ICON.person'.d("? $auth").ui("About( $auth.author )")
 			)
 		
@@ -121,7 +128,7 @@ const	grab	= src	=> Object.fromEntries(
 					).ui("About(.author)")
 				)
 				
-				,'bar'.d("$joined=."
+				,'bar'.d("$joined=($crew $auth.author)filter:??"
 				
 					,'ICON.share'.ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
 				
@@ -237,26 +244,26 @@ const	grab	= src	=> Object.fromEntries(
 	:'IMG'.d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
 	
 	Badge
-	:'badge'.d(''//'*@ .info'
+	:'badge'.d('*@ .info'
 		,'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat")//d("! Avatar")
 		,'alias'.d("! .alias")
 		,'about'.d("! .about")
 	),
 	
 	MyBadge
-	:'badge'.d(''
+	:'badge'.d('*@ .info=(.info ())?'
 		,'LABEL.avatar.filepicker'.d("$pic=; a!"
 			,'INPUT type=file'.ui("? $pic=#.files:ava.take,ava.upload; .pic=$pic.0")
 		).a("bg (dir.pics@ ($pic.0 .pic `default.jpg)? )concat")
 		,'alias contenteditable'.d("! .alias").ui(".alias=#:value")
 		,'about contenteditable'.d("! .about").ui(".about=#:value")
-	).u('(@POST"Author ($@info) )api:query msg.error.connection:alert'),
+	).u('(@POST"Author (.info) )api:query msg.error.connection:alert'),
 	
 	
 	About
-	:modal('$?= .me=( .author $auth.author )eq'
+	:modal('.me=( .author $auth.author:check )eq'
 	
-		,'info'.d('* ("Author .author)api:query; *@ .info; ! (..me MyBadge Badge)?!').u('?')
+		,'info'.d('* ("Author .author)api:query; ! (..me MyBadge Badge)?!').u('?')
 	
 		,'UL.activities'.d('* ("Activities .author)api:query'
 			,'LI.activity'.d(''
@@ -266,16 +273,10 @@ const	grab	= src	=> Object.fromEntries(
 			)
 		)
 		
-/*
-		,'activity'.d(""
-			,'LI.myarticles'.ui("$search=(.author)")
-			,'LI.mymemberships'.ui("$search=(.author@member)")
-		)
-*/		
 		,'auth'.d('? .me'
 			,'TAP.add'.ui("? Confirm( html.create@message ):wait; $create=:!")
 			,'ICON.logout'.ui("$auth=:auth.quit")
-		).u("$?=")
+		)
 	),
 	
 	Login
@@ -298,15 +299,15 @@ const	grab	= src	=> Object.fromEntries(
 	),
 	
 	Info
-	:modal(''
-		,"info".d('* ("Author .author)api:query; *@ .info; ! (..me MyBadge Badge)?!')
-		.u('..value=.info')
+	:modal('* ("Author .author)api:query'
+		,"info".d('! MyBadge').u('?')
+		,bar('..value=.info')
 	),
 	
 	_Info
 	:modal(""
-		,'profile'.d('$?=; *@ ("Author .author)api:query'
-	
+		,'profile'.d('$?=; *@ ("Author .author)api:query; ! MyBadge'
+/*	
 			,'form'.d('*@ .info=(.info ())?'
 			
 				,'LABEL.avatar.filepicker'.d("$pic=; a!"
@@ -324,32 +325,26 @@ const	grab	= src	=> Object.fromEntries(
 				)
 				
 			).u("$?=(); ?")
-			
-			,'BUTTON.ok'.ui(`
-				? $?:! (@POST"Author (.info) )api:query msg.error.connection:alert;
-				..value=.info;
-			`)
+*/			
+			,'BUTTON.ok'.ui('..value=.info')
 		)
 	),
 	
 	Skill
 	:modal(""
-		,"LABEL.level".d(''
-			,"SELECT".d("* levels@; ! Option").ui(".value.level=#:value; ?")
+		,'crew'.d('* levels@'
+			,"LABEL.member".d('! .1; !? ("level .0)concat'
+				,"INPUT type=radio name=level".ui('..value.level=.0; ?')
+			)			
 		)
 		,"LABEL.skill".d(''
 			,"INPUT".ui(".value.skill=#:value; ?")
 		)
-		,'BUTTON.ok'.ui("log .value")
+		,bar(".value=.value")
 	),
 
 	Confirm
-	:modal("! .message"
-		,'bar'.d(""
-			,'ACTION.cancel'.ui(".value=:?")
-			,'BUTTON.ok'.ui(".value=:!")
-		)
-	),
+	:modal("! .message",ok),
 
 })
 
@@ -384,7 +379,7 @@ const	grab	= src	=> Object.fromEntries(
 			fromstr: a => a ? a.split(" ").reduce((s,k)=>(s[k]=true, s), {}) : {},
 			tostr: s => Object.keys(s).join(" ")
 		},
-		focus: el=>setTimeout(_=> el.focus(),100),
+		focus: el=>setTimeout(_=> el.focus(),200),
 		
 	},
 	

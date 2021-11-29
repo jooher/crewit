@@ -8,22 +8,23 @@ export default{
 	operate:{
 		
 		value:(value,name,node)=>{
-			const
-				data = node.$.getDataContext(),
-				post = data.$post;
+			const data = node.$.getDataContext();
 			data[name||"value"]=value;
-			if(post)
-				post.resolve(value);
+			if(data.$post)
+				data.$post.resolve(value);
 		},
 		
 		top	:(value,alias,node)=>{
 			node.style.display="none";
 			window.setTimeout(()=>{
+				node.$parent=node.parentNode;
 				document.body.appendChild(node);
 				node.style.display="";
 			},0);
 		},
 		
-		kill:(value,name,node)=>{ (value||node).remove(); }
+		kill:(value,name,node)=>{
+			(value||node).remove();
+		}
 	}
 }

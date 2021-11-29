@@ -196,7 +196,7 @@ tab.selected {
 
 article {padding: 3rem 1rem;}
 
-article.focused {
+article.focused, .create>article {
   background-color: white;
   box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
   margin-bottom: .5rem;
@@ -243,7 +243,8 @@ input, button, [contenteditable] {
 
 
 [contenteditable]:empty::before{
-	color: slateblue;
+	color: silver;
+	/* font-style: italic; */
 }
 
 .overlay {

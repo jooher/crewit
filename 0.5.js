@@ -1099,7 +1099,7 @@ Fail("bzzz i<0");
 
 		checkUp = (node,change,result,snitch,todo) => {
 
-			const parent = node.parentNode;
+			const parent = node.$parent || node.parentNode;
 			
 			if(result!==false){
 				const rule = node.P.rules[Env.Classify(result)||"u"];

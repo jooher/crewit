@@ -5,13 +5,19 @@ h3	{color: darkslategray;}
 article{border-bottom: 1px solid lavender;/* max-height: 32em; *//* overflow-y: hidden; */}
 toggle, icon { color: gray; }
 
-[contenteditable]:empty{background: lavender;}
+[contenteditable]:empty{background: ghostwhite;}
 
 .tags { color: dodgerblue; }
-.member.me {background-color: gold}
+.member.me {background-color: gold;/* font-weight: bold; */}
 
 .level,
 .level0 {background-color: lightgreen;}
 .level1 {background-color: lightskyblue;}
 .level2 {background-color: lightsalmon;}
 .level3 {background-color: black;color: wheat;}
+
+
+section.create {
+  margin-top: 1em;
+  /* background: white; */
+}
