@@ -131,7 +131,7 @@ const	grab	= src	=> Object.fromEntries(
 				
 					,'joined'.d(`? $joined; ? .crewonly=("Crewonly_ .article)api:query`
 					
-						,'ICON.delete'.ui(`
+						,'ICON.block'.ui(`
 							? Confirm( html.unjoin@message ):wait;
 							? (@DELETE"Member .aricle)api:query msg.error.connection:alert;
 						`)
