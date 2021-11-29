@@ -282,3 +282,7 @@ input[type=date] {
   /* background: red; */
   display: block;
 }
+
+.centered {
+  text-align: center;
+}

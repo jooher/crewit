@@ -36,24 +36,22 @@ h3:empty::before{content:"Заголовок"}
 .venue:empty::before{content:"Дата, время \AМесто, адрес"}
 .price::before{content:"₽ "}
 .crew::before{content:"Команда"}
-.member.me::after{/* content:"это я" */}
+.member.me::after {content: "я"}
 
 .content>toggle::before{content:"Детали..."}
 .content>toggle.on::before{content:"Скрыть детали"}
-
-.edit.skills::before{content:"Скилы (опыт, лицензии, разряды)"}
-.edit.links::before{content:"Страницы"}
 
 label.addpics::before {content:"фотки"}
 label.expiry::before {content:"актуально до"}
 label.link::before {content:"Группа в Telegram/Whatsapp";}
 label.phone::before{content:"Ваш номер телефона"}
 label.challenge::before{content:"Код из СМС"}
-label.level::before{/* content:"Я в этой теме" */}
-label.skill::before{content:"Опыт по теме"}
+label.skillcomment::before{content:"Комментарий (оч. кратко)"}
 
 .alias:empty::before{content:"Имя или псевдоним"}
 .about:empty::before{content:"Немного о себе"}
+
+tap.add::after {content: "добавить свою тему"}
 
 button.join::before{content:"Вписаться!"}
 button.done::before{content:"Готово"}
@@ -88,6 +86,11 @@ button.ok::before{content:"OK"}
 	<p>Crew it! не является автором или организатором публикуемых мероприятий, не несет ответственности за их организацию и не контролирует взаимоотношения участников (в том числе финансовые).</p>
 	<p>Руководствуйтесь собственным оптимизмом и здравым смыслом.</p>
 	</article>
+	
+	<div name="skill" class="centered">
+	<h3>Добро пожаловать в команду!</h3>
+	<p>Как вы оцениваете свой уровень в этой теме? Только честно.</p>
+	</div>
 
 </section>
 

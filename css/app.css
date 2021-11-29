@@ -122,23 +122,14 @@ article>.auth{
 
 .member {
 	display: inline-block;
-	max-width: 12em;
+	position: relative;
+	text-align: center;
 	vertical-align: baseline;
-	/* overflow: hidden; */
 	vertical-align: top;
 	margin: .4em .4em 0 0;
-	/* background: lavender; */
-	/* border: 2px solid gray; */
 	padding: .1em .5em;
 	line-height: 1.5em;
 	border-radius: .4em;
-	overflow: hidden;
-}
-
-.member.me::after {
-	padding: 0.25em .5em;
-	margin-right: -0.5em;
-	margin-left: .25em;
 }
 
 
@@ -227,6 +218,8 @@ img.avatar {
 	position: relative;
 	padding-left: 7em;
 	min-height: 6em;
+	/* max-height: 8em; */
+	/* overflow: auto; */
 	/* min-width: 14em; */
 }
 
@@ -250,9 +243,7 @@ img.avatar {
 }
 
 .auth>.add::before {
-	/* height: 2em; */
 	font-size: 2em;
-	/* width: 2em; */
 	display: inline-block;
 }
 
@@ -262,11 +253,6 @@ img.avatar {
   width: 100%;
   text-align: right;
 }
-
-.content {
-  /* position: relative; */
-}
-
 
 .avatar {
   display: inline-block;
@@ -279,8 +265,6 @@ img.avatar {
 }
 
 label.avatar.filepicker {
-  /* width: 160px; */
-  /* height: 160px; */
   margin: 0 auto;
 }
 
@@ -297,8 +281,7 @@ label.avatar.filepicker {
 	padding-left:90px;
 	padding-bottom: .5rem;
 	position: relative;
-	/* max-height: 8em; */
-	/* overflow: hidden; */
+	min-height: 5rem;
 }
 
 header>.thumb {
@@ -309,16 +292,11 @@ header>.thumb {
   border-radius: 50%;
   position: absolute;
   left: -.25rem;
-  bottom: 0;
-  /* float: right; */
-  /* margin: -1rem -.5rem 1rem 0; */
-  /* float: left; */
-  /* margin: -1.5rem 1rem 1rem -.25em; */
+  top: 0;
 }
 
 .service>.link {
   flex: 1;
-  /* width: 100%; */
   margin-left: 2em;
 }
 
@@ -332,14 +310,11 @@ header>.thumb {
 
 .hrefs>a[href] {
   display: inline-block;
-  /* background: center no-repeat; */
   height: 2rem;
   width: 2rem;
   background-size: contain;
   margin-left: 1rem;
 }
-
-a.telegram {/* content: "Telegram"; */}
 
 .bar>.joined {
   display: inline-block;
@@ -376,35 +351,44 @@ li.activity {display: block; margin:1em 0}
   padding: 0;
   max-height: 24em;
   overflow-y: auto;
-  margin: 2e m 0;
+  margin: 2em 0;
 }
-
-tap.add::after {content: "добавить";}
 
 .about {
   font-style: italic;
+  max-height: 6em;
+  overflow: auto;
 }
 
 .alias, .skill {
   display: block;
   white-space: nowrap;
+  max-width: 16em;
+  margin: 0 auto;
   overflow: hidden;
 }
 
 label.member {
   display: block;
   position: relative;
-  /* text-align: center; */
-  margin: 1em;
+  margin: 1em auto;
   padding: 1em 1em 1em 4em;
+  /* text-align: left; */
 }
 
 input.member {}
 
 .member>input[type="radio"] {
   position: absolute;
-  /* display: inline; */
   width: unset;
   left: 1em;
   top: 1em;
+}
+
+.member.me::after {
+	border-radius: .8em;
+	padding: 0 4px;
+	position: absolute;
+	top: -.8em;
+	right: -.8em;
 }

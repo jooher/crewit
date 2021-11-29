@@ -331,14 +331,14 @@ const	grab	= src	=> Object.fromEntries(
 	),
 	
 	Skill
-	:modal(""
-		,'crew'.d('* levels@'
+	:modal("! html.skill; $?="
+		,'skill'.d('* levels@'
 			,"LABEL.member".d('! .1; !? ("level .0)concat'
-				,"INPUT type=radio name=level".ui('..value.level=.0; ?')
+				,"INPUT type=radio name=level".ui('..value.level=.0 $?=:!; ?')
 			)			
 		)
-		,"LABEL.skill".d(''
-			,"INPUT".ui(".value.skill=#:value; ?")
+		,"LABEL.skillcomment".d('? $?'
+			,"INPUT".d("#:focus").ui(".value.skill=#:value; ?")
 		)
 		,bar(".value=.value")
 	),
