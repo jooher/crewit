@@ -10,12 +10,15 @@ toggle, icon { color: gray; }
 .tags { color: dodgerblue; }
 .member.me::after {background-color: gold;color: black;z-index: 2;}
 
-.level,
-.level0 {background-color: lightgreen;}
-.level1 {background-color: lightskyblue;}
-.level2 {background-color: lightsalmon;}
-.level3 {background-color: black;color: wheat;}
+.level0>.skill {background-color: lightgreen;}
+.level1>.skill {background-color: lightskyblue;}
+.level2>.skill {background-color: lightsalmon;}
+.level3>.skill {background-color: darkslategray;color: aliceblue;}
 
+.level0>.avatar{border-color:lightgreen}
+.level1>.avatar{border-color:lightskyblue}
+.level2>.avatar{border-color:lightsalmon}
+.level3>.avatar{border-color:wheat}
 
 section.create {
   margin-top: 1em;

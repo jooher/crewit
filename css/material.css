@@ -254,9 +254,9 @@ input, button, [contenteditable] {
 }
 
 .bar>icon, .bar>button {
-	margin-left: 1em;
+	margin-left: 1rem;
 	vertical-align: middle;
- }
+	}
 
 .bar>icon{
 	font-size: 2em;

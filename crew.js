@@ -34,7 +34,7 @@ const	grab	= src	=> Object.fromEntries(
 	auth	= httpAuth( headers, u => 'Basic '+ btoa([u.author,u.token].join(":")) ),
 	api	= restAPI( {base:server + "php/data.php?", headers} ),
 	img	= imgtaker(server+"php/upload1.php",{maxw:1280,maxh:720}),
-	ava	= imgtaker(server+"php/upload1.php",{maxw:640,maxh:640}),
+	ava	= imgtaker(server+"php/upload1.php",{maxw:320,maxh:320}),
 
 	date = d => d && new Date(d)[d.split(" ").pop()==='00:00:00' ? 'toLocaleDateString' : 'toLocaleString'](),
 	dateonly = str => str && str.split(" ")[0],
@@ -121,9 +121,13 @@ const	grab	= src	=> Object.fromEntries(
 				,'SECTION.details'.d("? .details; ! .details")
 				
 				,'SECTION.crew'.d("*@ $crew"
-					,'member'.d('!? .me=(.author $auth.author)eq (`level .crew.level)concat; ..joined=(..joined .me)?'
-						,'alias'.d("! (.info.alias .author)?")
-						,'skill'.d("! .crew.skill")
+					,'member'.d(`
+						..joined=(..joined .me=(.author $auth.author)eq)?;
+						!? .me ("level .crew.level)concat;
+						Avatar(.info.pic);
+						`
+						//,'alias'.d("! (.info.alias .author)?")
+						,'skill'.d('? .crew.skill; ! .crew.skill')
 					).ui("About(.author)")
 				)
 				
@@ -246,11 +250,11 @@ const	grab	= src	=> Object.fromEntries(
 	).a("!? ($? $edit)?@focused"),
 	
 	Avatar
-	:'IMG'.d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
+	:'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat"),
+	//:'IMG'.d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
 	
 	Badge
-	:'badge'.d('*@ .info'
-		,'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat")//d("! Avatar")
+	:'badge'.d('*@ .info; ! Avatar'
 		,'alias'.d("! .alias")
 		,'about'.d("! .about")
 	),

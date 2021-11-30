@@ -103,6 +103,8 @@ article>.auth{
 
 .more>section::before {
 	display: block;
+	margin: 1em;
+	font-weight: bold;
 }
 
 .more>.bar {
@@ -126,8 +128,8 @@ article>.auth{
 	text-align: center;
 	vertical-align: baseline;
 	vertical-align: top;
-	margin: .4em .4em 0 0;
-	padding: .1em .5em;
+	margin: 1em.2em;
+	/* padding: .1em .5em; */
 	line-height: 1.5em;
 	border-radius: .4em;
 }
@@ -258,10 +260,11 @@ img.avatar {
   display: inline-block;
   border-radius: 50%;
   overflow: hidden;
-  height:64px;
-  width:64px;
+  height: 8em;
+  width: 8em;
   background: gray center no-repeat;
   background-size: cover;
+  border: 3px solid gainsboro;
 }
 
 label.avatar.filepicker {
@@ -319,6 +322,7 @@ header>.thumb {
 .bar>.joined {
   display: inline-block;
   vertical-align: middle;
+  white-space: nowrap;
 }
 
 a.telegram {
@@ -363,7 +367,7 @@ li.activity {display: block;margin: 2em 0;}
 .alias, .skill {
   display: block;
   white-space: nowrap;
-  max-width: 16em;
+  /* max-width: 16em; */
   margin: 0 auto;
   overflow: hidden;
 }
@@ -387,8 +391,33 @@ input.member {}
 
 .member.me::after {
 	border-radius: .8em;
-	padding: 0 4px;
+	/* padding: 0 4px; */
 	position: absolute;
 	right: 2px;
-	bottom: 2px;
+	top: 2px;
+	display: block;
+	font-size: 2em;
+	padding: .4em .5em;
+}
+
+section.crew {
+  font-size: .9em;
+  text-align: center;
+  /* margin: 2em auto; */
+  /* display: flex; */
+}
+
+.member>.skill {
+  /* position: absolute; */
+  /* bottom: 0; */
+  margin-top: -1.5em;
+  position: relative;
+  width: 8em;
+  /* padding: 2px; */
+  border-radius: .7em;
+}
+
+.joined>.hrefs {
+  display: inline-block;
+  vertical-align: middle;
 }
