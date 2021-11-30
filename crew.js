@@ -276,9 +276,7 @@ const	grab	= src	=> Object.fromEntries(
 		,'UL.activities'.d('* ("Activities .author)api:query'
 			,'LI.activity'.d(''
 				,'date'.d("! .date:dateonly")
-				,'member'.d(""
-					,"skill".d("! .crew.skill; !? (`level .crew.level)concat")
-				)
+				,"skill".d("! .crew.skill; !? (`level .crew.level)concat")
 				,'title'.d("! .title")
 			)
 		)
