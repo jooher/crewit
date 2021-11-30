@@ -59,7 +59,7 @@ const	grab	= src	=> Object.fromEntries(
 
 
 'APP'.d(""
-	,'PAGE'.d("$auth=:auth.load $scheduled= $create= $tagset= $search=( .article .author .member .tag ); u!"
+	,'PAGE'.d("$auth=:auth.load $scheduled= $create= $tagset= $search=( .author .tag .article ); u!"
 	
 		,'ATTIC'.d("$?="
 
@@ -252,7 +252,7 @@ const	grab	= src	=> Object.fromEntries(
 	).a('? ( $? $edit)?; !? "focused; scrollto #'),
 	
 	Avatar
-	:'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat"),
+	:'avatar'.d("bg (dir.pics@ (.pic `avatar/default.jpg)? )concat"),
 	//:'IMG'.d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
 	
 	Badge
@@ -281,7 +281,7 @@ const	grab	= src	=> Object.fromEntries(
 				,'date'.d("! .date:dateonly")
 				,"skill".d("! .crew.skill; !? (`level .crew.level)concat")
 				,'title'.d("! .title")
-			).ui('$search=( .autor@member .article )')
+			).ui('$search=( ..author .article )')
 		)
 		
 		,'auth'.d('? .me'
