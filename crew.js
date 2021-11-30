@@ -18,7 +18,10 @@ const	grab	= src	=> Object.fromEntries(
 	tsv = txt => txt.trim().split("\n").map(str => str.split("\t")),
 	
 	scrim = 'scrim'.ui('.value=:?'),
-	modal = (...dialog) => 'modal'.d('top',scrim,'dialog'.d(...dialog)).u("value .value; kill"),
+	modal = (...dialog) => 
+		'modal'.d('startmodal',scrim,'dialog'.d(...dialog))
+		.u("value .value; endmodal")
+		.e("POPSTATE", "endmodal"),
 	
 	bar = (ok,cancel) => "bar".d(""
 		,'ACTION.cancel'.ui(cancel||'.value=:?')
@@ -83,7 +86,7 @@ const	grab	= src	=> Object.fromEntries(
 .DICT({
 	
 	Article
-	:'ARTICLE'.d("here? .?=( $search.article .article )eq; & .content@; $?=. $edit=."
+	:'ARTICLE'.d("$?=( $search.article .article )eq $edit=.; & .content@; a!"
 	
 		,'auth'.d("$edit; ? (.author $auth.author)eq"
 			,'ICON.edit'.d("? $edit:!").ui("$edit=:!")
@@ -246,7 +249,7 @@ const	grab	= src	=> Object.fromEntries(
 				)
 			)
 		)
-	).a("!? ($? $edit)?@focused"),
+	).a('? ( $? $edit)?; !? "focused; scrollto #'),
 	
 	Avatar
 	:'avatar'.d("bg (dir.pics@ (.pic `default.jpg)? )concat"),
@@ -278,7 +281,7 @@ const	grab	= src	=> Object.fromEntries(
 				,'date'.d("! .date:dateonly")
 				,"skill".d("! .crew.skill; !? (`level .crew.level)concat")
 				,'title'.d("! .title")
-			)
+			).ui('$search=( .autor@member .article )')
 		)
 		
 		,'auth'.d('? .me'
@@ -407,7 +410,7 @@ const	grab	= src	=> Object.fromEntries(
 	},
 	
 	operate:{
-		"here?": (value,alias,node) => { if(value)setTimeout(_=>node.scrollIntoView(),100); },
+		scrollto: (value,alias,node) => { setTimeout(_=>(value||node).scrollIntoView(),100); },
 		bg: (value,alias,node) => { node.style.backgroundImage="url('"+value+"')"; }
 	}
 

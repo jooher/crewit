@@ -14,7 +14,8 @@ export default{
 				data.$post.resolve(value);
 		},
 		
-		top	:(value,alias,node)=>{
+		startmodal	
+		:(value,alias,node)=>{
 			node.style.display="none";
 			window.setTimeout(()=>{
 				node.$parent=node.parentNode;
@@ -23,7 +24,8 @@ export default{
 			},0);
 		},
 		
-		kill:(value,name,node)=>{
+		endmodal
+		:(value,name,node)=>{
 			(value||node).remove();
 		}
 	}

@@ -387,22 +387,23 @@ label.skill {
 
 section.crew {
   font-size: .9em;
-  display: flex;
-  flex-flow: row wrap;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  margin: 2em auto;
+  /* display: flex; */
+  /* flex-flow: row wrap; */
+  /* flex-wrap: wrap; */
+  /* justify-content: space-around; */
   /* align-items: center; */
 }
 
-.member>.skill {
-  display: block;
-  padding: 2px;
-  margin: 0 auto;
-  margin-top: -1em;
-  /* position: relative; */
-  max-width: 8em;
-  line-height: 1.4em;
+.skill{
+line-height: 1.4em;
   border-radius: .7rem;
+  padding: 2px;
+}
+
+.member>.skill {
+  margin-top: -1em;
+  max-width: 8em;
 }
 
 .joined>.hrefs {
@@ -411,10 +412,11 @@ section.crew {
 }
 
 .crew>.member {
-  display: block;
-  margin: 1em.2em;
-  flex: 1;
-  max-width:30%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 1em .8em;
+  /* flex: 1; */
+  /* max-width:30%; */
   text-align: center;
 }
 
