@@ -123,11 +123,10 @@ const	grab	= src	=> Object.fromEntries(
 				,'SECTION.crew'.d("*@ $crew"
 					,'member'.d(`
 						..joined=(..joined .me=(.author $auth.author)eq)?;
-						!? .me ("level .crew.level)concat;
 						Avatar(.info.pic);
 						`
 						//,'alias'.d("! (.info.alias .author)?")
-						,'skill'.d('? .crew.skill; ! .crew.skill')
+						,'skill'.d('? .crew.skill; ! .crew.skill; !? ("level .crew.level)concat;')
 					).ui("About(.author)")
 				)
 				
@@ -137,7 +136,7 @@ const	grab	= src	=> Object.fromEntries(
 					
 						,'ICON.block'.ui(`
 							? Confirm( html.unjoin@message ):wait;
-							? (@DELETE"Member .aricle)api:query msg.error.connection:alert;
+							? (@DELETE"Member .article)api:query msg.error.connection:alert;
 						`)
 					
 						,'hrefs'.d("* .crewonly.0.content.hrefs:hrefsplit@href"
@@ -277,7 +276,9 @@ const	grab	= src	=> Object.fromEntries(
 		,'UL.activities'.d('* ("Activities .author)api:query'
 			,'LI.activity'.d(''
 				,'date'.d("! .date:dateonly")
-				,'member'.d("! .crew.skill; !? (`level .crew.level)concat")
+				,'member'.d(""
+					,"skill".d("! .crew.skill; !? (`level .crew.level)concat")
+				)
 				,'title'.d("! .title")
 			)
 		)
@@ -341,8 +342,8 @@ const	grab	= src	=> Object.fromEntries(
 	
 	Skill
 	:modal("! html.skill; $?="
-		,'skill'.d('* levels@'
-			,"LABEL.member".d('! .1; !? ("level .0)concat'
+		,'UL'.d('* levels@'
+			,"LABEL.skill".d('! .1; !? ("level .0)concat'
 				,"INPUT type=radio name=level".ui('..value.level=.0 $?=:!; ?')
 			)			
 		)
