@@ -432,3 +432,7 @@ section.crew {
   width: 2rem;
   margin: .4rem 1rem;
 }
+
+.dialog>icon.block {
+  position: absolute;
+}

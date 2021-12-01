@@ -1,5 +1,5 @@
 import "./0.5.js"; //https://dap.js.org/0.5.js
-import msg from "./localized/ru.js";
+//import msg from "./localized/ru.js";
 import wraps from "./jsm/wraps.js";
 import wait from "./jsm/modal.js";
 import restAPI	from "./jsm/rest.js";
@@ -15,7 +15,9 @@ const	grab	= src	=> Object.fromEntries(
 		
 	html	= grab(document.getElementById("data")),
 	
-	tsv = txt => txt.trim().split("\n").map(str => str.split("\t")),
+	tsv = txt => txt.trim().split(/\n+/g).map(str => str.split(/\t+/g)),
+	
+	dict = arr => arr.reduce((d,r)=> (d[r[0]]=r[1])?d:d,{}), 
 	
 	scrim = 'scrim'.ui('.value=:?'),
 	modal = (...dialog) => 
@@ -138,12 +140,7 @@ const	grab	= src	=> Object.fromEntries(
 				,'bar'.d("$joined=($crew $auth.author)filter:??"
 				
 					,'joined'.d(`? $joined; ? .crewonly=("Crewonly_ .article)api:query`
-					
-						,'ICON.block'.ui(`
-							? Confirm( html.unjoin@message ):wait;
-							? (@DELETE"Member .article)api:query msg.error.connection:alert;
-						`)
-					
+										
 						,'hrefs'.d("* .crewonly.0.content.hrefs:hrefsplit@href"
 							,'A'.d("? .title=.href:vendor; !? .title@; !! .href .title")
 						)
@@ -242,11 +239,11 @@ const	grab	= src	=> Object.fromEntries(
 					,'ACTION.cancel'.ui("$edit= $create=")
 				
 					,'BUTTON.done'.ui(`
-						? (.date .tags .title .price .html)! msg.error.incomplete:alert;
-						? $pics:! .pics=($pics:img.upload .pics)? msg.error.upload:alert;
-						? .result=( @POST"Article (.article .title .tags .date (.price .venue .html .thumb .pics .details .link)@content) )api:query msg.error.connection:alert;
+						? (.date .tags .title .price .html)! error.incomplete:alert;
+						? $pics:! .pics=($pics:img.upload .pics)? error.upload:alert;
+						? .result=( @POST"Article (.article .title .tags .date (.price .venue .html .thumb .pics .details .link)@content) )api:query error.connection:alert;
 						.article=.result.0.article $edit=
-					`)//? (.pics $pics)? msg.error.nopics:alert;
+					`)//? (.pics $pics)? error.nopics:alert;
 				)
 			)
 		)
@@ -268,7 +265,7 @@ const	grab	= src	=> Object.fromEntries(
 		).a("bg (dir.pics@ ($pic.0 .pic `avatar/default.jpg)? )concat")
 		,'alias contenteditable'.d("! .alias").ui(".alias=#:value")
 		,'about contenteditable'.d("! .about").ui(".about=#:value")
-	).u('? (@POST"Author ( $auth.info=. ) )api:query msg.error.connection:alert; $auth:auth.save'),
+	).u('? (@POST"Author ( $auth.info=. ) )api:query error.connection:alert; $auth:auth.save'),
 	
 	
 	About
@@ -295,15 +292,15 @@ const	grab	= src	=> Object.fromEntries(
 		
 		,'LABEL.phone'.d(""
 			,'INPUT.phone type=tel'.d("#:focus").ui(`
-				? .phone=#:value,valid.phone msg.error.phone:alert;
-				? $challenge=( Auth@ .phone )uri:query msg.error.connection:alert;
+				? .phone=#:value,valid.phone error.phone:alert;
+				? $challenge=( Auth@ .phone )uri:query error.connection:alert;
 				.otpwd=$challenge.otpwd;
 			?`)
 		)
 		
 		,'LABEL.challenge'.d('? $challenge'
 			,'INPUT'.d("#:focus").ui(`
-				? .verify=( Auth@ .phone .otpwd )uri:query msg.error.wrong:alert;
+				? .verify=( Auth@ .phone .otpwd )uri:query error.wrong:alert;
 				? .value=.verify:auth.save;
 			`)
 		)
@@ -318,15 +315,21 @@ const	grab	= src	=> Object.fromEntries(
 	Member
 	:modal("! html.skill; $?=.crew.skill"
 		,'UL'.d('* levels@'
-			,"LABEL.skill".d('! .1; !? ("level .0)concat'
+			,"LABEL.skill".d('! .1; !? ("level .0)concat' //'//
 				,"INPUT type=radio name=level".ui('..crew.level=.0 $?=.crew.skill=($? .1)?; ?')
 			)			
 		)
 		,"LABEL.skillcomment".d('? $?'
 			,"INPUT".d("#.value=$?; #:focus").ui(".crew.skill=#:value; ?")
 		)
+		
+		,'ICON.block'.d("? .crew").ui(`
+			? Confirm( html.unjoin@message ):wait;
+			? (@DELETE"Member .article)api:query error.connection:alert;
+		`)
+		
 		,bar(
-			'? .value=( @POST"Member (.article .crew) )api:query msg.error.connection:alert .value=.crew',
+			'? .value=( @POST"Member (.article .crew) )api:query error.connection:alert .value=.crew',
 			'.value=.crew'
 		)
 	),
@@ -338,7 +341,9 @@ const	grab	= src	=> Object.fromEntries(
 
 .DICT({
 	
-	msg, html,
+	html,
+	
+	error:dict(tsv(html.error.innerText)), 
 	
 	base: location.origin+"/#!",
 	

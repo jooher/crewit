@@ -52,11 +52,12 @@ label.skillcomment::before{content:"Комментарий (оч. кратко)"
 .about:empty::before{content:"Немного о себе"}
 
 tap.add::after {content: "добавить свою тему"}
+icon.block::after {content: "Отписаться"}
 
 button.join::before{content:"Вписаться!"}
 button.done::before{content:"Готово"}
-action.cancel::before{content:"Отмена"}
 button.ok::before{content:"OK"}
+action.cancel::before{content:"Отмена"}
 </style>
 
 	</head>
@@ -64,13 +65,6 @@ button.ok::before{content:"OK"}
 <body>
 
 <section id="data" style="display:none">
-
-<pre name="levels">
-0	новичок
-1	начинающий
-2	опытный
-3	профессионал
-</pre>
 
 	<article name="create">
 	<h3>Добавить мероприятие?</h3>
@@ -89,14 +83,30 @@ button.ok::before{content:"OK"}
 	
 	<article name="unjoin">
 	<h3>Отписаться?</h3>
-	<p>Вам не будут присылаться уведомления по этой теме.</p>
+	<p>Вам больше не будут присылаться уведомления по этой теме.</p>
 	</article>
 	
 	<div name="skill" class="centered">
 	<h3>Добро пожаловать в команду!</h3>
 	<p>Как вы оцениваете свой уровень в этой теме? Только честно.</p>
 	</div>
+	
+<pre name="levels">
+0	новичок
+1	начинающий
+2	опытный
+3	профессионал
+</pre>
 
+<pre	name="error">
+nopics	Как насчет какой-нибудь красивой фотки в тему?
+incomplete	Все поля нужно заполнить: заголовок, теги, текст, время, стоимость
+upload	Не удалось загрузить фотки
+connection	Проблема с подключением
+wrong		Неа
+</pre>
+	
+	
 </section>
 
 </body>
