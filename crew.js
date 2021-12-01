@@ -70,7 +70,7 @@ const	grab	= src	=> Object.fromEntries(
 					,'INPUT'.d("# $search.tag@value").ui("$search=( #:text@tag )")
 				)
 				,'ICON.login'.d("? $auth:!").ui("? $auth=Login():wait") //; About( $auth.author )
-				,'ICON.person'.d("? $auth").ui("About( $auth.author )")
+				,'auth'.d("? $auth; Avatar( $auth.info.pic )").ui("About( $auth.author )")
 			)
 		
 	
@@ -125,12 +125,14 @@ const	grab	= src	=> Object.fromEntries(
 				
 				,'SECTION.crew'.d("*@ $crew"
 					,'member'.d(`
-						..joined=(..joined .me=(.author $auth.author)eq)?;
+						..joined=(..joined .me=(.author $auth.author)eq)?; !? .me;
 						Avatar(.info.pic);
 						`
-						//,'alias'.d("! (.info.alias .author)?")
-						,'skill'.d('? .crew.skill; ! .crew.skill; !? ("level .crew.level)concat;')
-					).ui("About(.author)")
+						,'skill'.d('! .crew.skill; !? ("level .crew.level)concat;')
+					).ui(`
+					{? .me:!,check; About(.author)};
+					{? .me:check; $crew=Member( ..article .author .crew ):wait }
+					`)
 				)
 				
 				,'bar'.d("$joined=($crew $auth.author)filter:??"
@@ -153,8 +155,7 @@ const	grab	= src	=> Object.fromEntries(
 					.ui(`	? Confirm( html.join@message ):wait;
 						? $auth $auth=Login():wait;
 						? $auth.info $auth.info=Info($auth.author):wait;
-						? $joined=Skill(()@value):wait;
-						? $crew=( @POST"Member (.article $joined@crew) )api:query msg.error.connection:alert;
+						? $crew=Member(.article $auth.author):wait;
 					`)
 					
 				).u('?')
@@ -253,7 +254,6 @@ const	grab	= src	=> Object.fromEntries(
 	
 	Avatar
 	:'avatar'.d("bg (dir.pics@ (.pic `avatar/default.jpg)? )concat"),
-	//:'IMG'.d("!! (dir.pics@ (.info.pic `default.jpg)? )concat@src"),//.ui("upload")
 	
 	Badge
 	:'badge'.d('*@ .info; ! Avatar'
@@ -265,14 +265,14 @@ const	grab	= src	=> Object.fromEntries(
 	:'badge'.d('*@ .info=(.info ())?'
 		,'LABEL.avatar.filepicker'.d("$pic=; a!"
 			,'INPUT type=file'.ui("? $pic=#.files:ava.take,ava.upload; .pic=$pic.0")
-		).a("bg (dir.pics@ ($pic.0 .pic `default.jpg)? )concat")
+		).a("bg (dir.pics@ ($pic.0 .pic `avatar/default.jpg)? )concat")
 		,'alias contenteditable'.d("! .alias").ui(".alias=#:value")
 		,'about contenteditable'.d("! .about").ui(".about=#:value")
-	).u('(@POST"Author (.info) )api:query msg.error.connection:alert'),
+	).u('? (@POST"Author ( $auth.info=. ) )api:query msg.error.connection:alert; $auth:auth.save'),
 	
 	
 	About
-	:modal('.me=( .author $auth.author:check )eq'
+	:modal('.me=( .author $auth.author )eq'
 	
 		,'info'.d('* ("Author .author)api:query; ! (..me MyBadge Badge)?!').u('?')
 	
@@ -315,43 +315,20 @@ const	grab	= src	=> Object.fromEntries(
 		,bar('..value=.info')
 	),
 	
-	_Info
-	:modal(""
-		,'profile'.d('$?=; *@ ("Author .author)api:query; ! MyBadge'
-/*	
-			,'form'.d('*@ .info=(.info ())?'
-			
-				,'LABEL.avatar.filepicker'.d("$pic=; a!"
-				
-					,'INPUT type=file'.ui("? $pic=#.files:ava.take,ava.upload; .pic=$pic.0")
-					
-				).a("bg (dir.pics@ ($pic.0 .pic `default.jpg)? )concat")
-				
-				,'LABEL.alias'.d(''
-					,'INPUT'.d("!! .alias@value").ui(".alias=#:value")
-				)
-				
-				,'LABEL.about'.d(''
-					,'TEXTAREA'.d('! .about@value').ui(".about=#:value")
-				)
-				
-			).u("$?=(); ?")
-*/			
-			,'BUTTON.ok'.ui('..value=.info')
-		)
-	),
-	
-	Skill
-	:modal("! html.skill; $?="
+	Member
+	:modal("! html.skill; $?=.crew.skill"
 		,'UL'.d('* levels@'
 			,"LABEL.skill".d('! .1; !? ("level .0)concat'
-				,"INPUT type=radio name=level".ui('..value.level=.0 $?=:!; ?')
+				,"INPUT type=radio name=level".ui('..crew.level=.0 $?=.crew.skill=($? .1)?; ?')
 			)			
 		)
 		,"LABEL.skillcomment".d('? $?'
-			,"INPUT".d("#:focus").ui(".value.skill=#:value; ?")
+			,"INPUT".d("#.value=$?; #:focus").ui(".crew.skill=#:value; ?")
 		)
-		,bar(".value=.value")
+		,bar(
+			'? .value=( @POST"Member (.article .crew) )api:query msg.error.connection:alert .value=.crew',
+			'.value=.crew'
+		)
 	),
 
 	Confirm

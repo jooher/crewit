@@ -597,12 +597,15 @@ const	dap=(Env=>
 
 				function makeTodo(steps,epilog){//branches
 				
+					if(!steps.length)
+						return epilog;
+				
 					const
 						stepstr = steps.shift(),
 						isbranch = stepstr.match(/^<(\d+)>$/);
 
 					if(isbranch)
-							return new Step(makeTodo(branchSteps(isbranch[1])),null,null,epilog)
+						return new Step(makeTodo(branchSteps(isbranch[1])),null,null,makeTodo(steps,epilog))//epilog
 
 					const
 						tokens= stepstr.split(TOKENS),
@@ -611,7 +614,7 @@ const	dap=(Env=>
 						alias	= head[1],
 						feed	= tokens.length && makeFeed( tokens.reverse(), alias );
 					
-					return new Step(null, operate, feed, steps.length ? makeTodo(steps,epilog) : epilog);
+					return new Step(null, operate, feed, makeTodo(steps,epilog));// steps.length ? : epilog
 				};
 
 				function makeFeed(tokens,defaultalias){
@@ -1004,7 +1007,6 @@ const	dap=(Env=>
 								entry = path.entry;
 								
 							let
-							//	target = entry && up || path.reach(context,this),
 								i = route.length,
 								key = route[--i],
 								target = up && entry && (!i||up[entry]) ? up : path.reach(context,this);

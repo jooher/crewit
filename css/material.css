@@ -70,7 +70,7 @@ action{
 }
 
 toggle {
-	position: absolute;
+	/* position: absolute; */
 	display: block;
 	font-size:.8em;
 	/* margin: .5rem 0; */
@@ -157,6 +157,7 @@ attic>bar {
 }
 
 attic>bar {
+	height: 3rem;
 	font-size: 1.25rem;
 	/* background: darkorange; */
 }
@@ -194,7 +195,7 @@ tab.selected {
 	border-bottom-color: inherit;
 }
 
-article {padding: 3rem 1rem;}
+article {padding: 1rem;}
 
 article.focused, .create>article {
   background-color: white;
