@@ -231,7 +231,7 @@ img.avatar {
 .auth>.logout {
 	position: absolute;
 	right: 1em;
-	bottom: 1em;
+	top: 1em;
 }
 
 .auth>.add::before {
@@ -365,7 +365,8 @@ label.skill {
   display: block;
   position: relative;
   margin: 1em auto;
-  padding: 1em 1em 1em 4em;
+  text-align: center;
+  padding: 1em 2em;
 }
 
 .skill>input[type="radio"] {
@@ -381,18 +382,12 @@ label.skill {
 	right: -4px;
 	top: -4px;
 	display: block;
-	/* font-size: 2em; */
 	padding: .7em 1em;
 }
 
 section.crew {
   font-size: .9em;
   margin: 2em auto;
-  /* display: flex; */
-  /* flex-flow: row wrap; */
-  /* flex-wrap: wrap; */
-  /* justify-content: space-around; */
-  /* align-items: center; */
 }
 
 .skill{line-height: 1.4em;border-radius: .7rem;background: gainsboro;padding: 2px;}
@@ -411,8 +406,6 @@ section.crew {
   display: inline-block;
   vertical-align: top;
   margin: 1em .8em;
-  /* flex: 1; */
-  /* max-width:30%; */
   text-align: center;
 }
 
@@ -425,8 +418,6 @@ section.crew {
   margin: 0 auto;
 }
 
-.skill:empty::before {content: "я с вами";}
-
 .auth>.avatar {
   height: 2rem;
   width: 2rem;
@@ -435,4 +426,9 @@ section.crew {
 
 .dialog>icon.block {
   position: absolute;
+  bottom: 1.4rem;
+}
+
+icon::after {
+  font-size: .8em;
 }

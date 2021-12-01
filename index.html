@@ -35,7 +35,7 @@ h3:empty::before{content:"Заголовок"}
 .details:empty::before{content:"детали"}
 .venue:empty::before{content:"Дата, время \AМесто, адрес"}
 .price::before{content:"₽ "}
-.crew::before{content:"Команда" /* */}
+.crew::before{content:"Команда"}
 .member.me::after {content: "я"}
 
 .content>toggle::before{content:"Детали..."}
@@ -47,6 +47,8 @@ label.link::before {content:"Группа в Telegram/Whatsapp";}
 label.phone::before{content:"Ваш номер телефона"}
 label.challenge::before{content:"Код из СМС"}
 label.skillcomment::before{content:"Комментарий (оч. кратко)"}
+
+.skill:empty::before {content: "я с вами";}
 
 .alias:empty::before{content:"Имя или псевдоним"}
 .about:empty::before{content:"Немного о себе"}

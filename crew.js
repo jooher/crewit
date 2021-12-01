@@ -72,9 +72,13 @@ const	grab	= src	=> Object.fromEntries(
 					,'INPUT'.d("# $search.tag@value").ui("$search=( #:text@tag )")
 				)
 				,'ICON.login'.d("? $auth:!").ui("? $auth=Login():wait") //; About( $auth.author )
-				,'auth'.d("? $auth; Avatar( $auth.info.pic )").ui("About( $auth.author )")
+				,'auth'.d(`
+					? $auth:check;
+					? $auth.info $auth.info=Info($auth.author):wait;
+					Avatar( $auth.info.pic );
+				`).ui("About( $auth.author )")
 			)
-		
+
 	
 		)
 
@@ -132,8 +136,8 @@ const	grab	= src	=> Object.fromEntries(
 						`
 						,'skill'.d('! .crew.skill; !? ("level .crew.level)concat;')
 					).ui(`
-					{? .me:!,check; About(.author)};
-					{? .me:check; $crew=Member( ..article .author .crew ):wait }
+					{? .me:!; About(.author)};
+					{? .me; $crew=Member( ..article .author .crew ):wait,check }
 					`)
 				)
 				
@@ -151,7 +155,6 @@ const	grab	= src	=> Object.fromEntries(
 					,'BUTTON.join'.d("? $joined:!")////$auth.info $auth.info
 					.ui(`	? Confirm( html.join@message ):wait;
 						? $auth $auth=Login():wait;
-						? $auth.info $auth.info=Info($auth.author):wait;
 						? $crew=Member(.article $auth.author):wait;
 					`)
 					
@@ -320,17 +323,24 @@ const	grab	= src	=> Object.fromEntries(
 			)			
 		)
 		,"LABEL.skillcomment".d('? $?'
-			,"INPUT".d("#.value=$?; #:focus").ui(".crew.skill=#:value; ?")
+			,"INPUT".d('#.value=$?; #:focus').ui('.crew.skill=#:value; ?')
 		)
 		
-		,'ICON.block'.d("? .crew").ui(`
-			? Confirm( html.unjoin@message ):wait;
-			? (@DELETE"Member .article)api:query error.connection:alert;
-		`)
+		,"bar".d(''
 		
-		,bar(
-			'? .value=( @POST"Member (.article .crew) )api:query error.connection:alert .value=.crew',
-			'.value=.crew'
+			,"ICON.block".d('? .crew').ui(`
+				? Confirm( html.unjoin@message ):wait;
+				? (@DELETE"Member .article)api:query error.connection:alert;
+				.value=:!
+			`)
+			
+			,"ACTION.cancel".ui('.value=.crew')
+			
+			,"BUTTON.ok".ui(`
+				? .value=( @POST"Member ( .article .crew) )api:query
+				error.connection:alert .value=.crew
+			`)
+			
 		)
 	),
 

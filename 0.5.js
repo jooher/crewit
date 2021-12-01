@@ -171,8 +171,8 @@ const	dap=(Env=>
 			function Datum(route){
 				let lift=0;
 				while(!route[route.length-1]){
-						route.pop();
-						++lift;
+					route.pop();
+					++lift;
 				}
 				this.route=route;
 				this.lift=lift;
@@ -646,7 +646,7 @@ const	dap=(Env=>
 								if(path){						
 									if(!tag)
 										tag=path.route[0];
-									if(path.entry)
+									if(path.entry&&path.route.length==1)
 										context.scope.lvalue(path.entry,context.define);
 								}
 								return new Lvalue(path,convert);
