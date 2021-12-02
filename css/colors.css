@@ -8,7 +8,7 @@ toggle, icon { color: gray; }
 [contenteditable]:empty{background: ghostwhite;}
 
 .tags { color: dodgerblue; }
-.member.me::after {background-color: gold;color: black;z-index: 2;}
+.member.me::before {background-color: gold;color: black;/* z-index: 1; */}
 
 .level0.skill {background-color: lightgreen;}
 .level1.skill {background-color: lightskyblue;}

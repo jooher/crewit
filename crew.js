@@ -61,7 +61,7 @@ const	grab	= src	=> Object.fromEntries(
 
 
 'APP'.d(""
-	,'PAGE'.d("$auth=:auth.load $scheduled= $create= $tagset= $search=( .author .tag .article ); u!"
+	,'PAGE'.d("$auth=:auth.load $scheduled= $create= $tagset= $article=. $search=( .author .tag ); u!"
 	
 		,'ATTIC'.d("$?="
 
@@ -92,7 +92,7 @@ const	grab	= src	=> Object.fromEntries(
 .DICT({
 	
 	Article
-	:'ARTICLE'.d("$?=( $search.article .article )eq $edit=.; & .content@; a!"
+	:'ARTICLE'.d("$?=( $article .article )eq $edit=.; & .content@; a!"
 	
 		,'auth'.d("$edit; ? (.author $auth.author)eq"
 			,'ICON.edit'.d("? $edit:!").ui("$edit=:!")
@@ -136,8 +136,8 @@ const	grab	= src	=> Object.fromEntries(
 						`
 						,'skill'.d('! .crew.skill; !? ("level .crew.level)concat;')
 					).ui(`
-					{? .me:!; About(.author)};
-					{? .me; $crew=Member( ..article .author .crew ):wait,check }
+					{? .me:!; About(.author) };
+					{? .me; $crew=( Member( ..article .author .crew ):wait $crew )? };
 					`)
 				)
 				
@@ -269,8 +269,7 @@ const	grab	= src	=> Object.fromEntries(
 		,'alias contenteditable'.d("! .alias").ui(".alias=#:value")
 		,'about contenteditable'.d("! .about").ui(".about=#:value")
 	).u('? (@POST"Author ( $auth.info=. ) )api:query error.connection:alert; $auth:auth.save'),
-	
-	
+		
 	About
 	:modal('.me=( .author $auth.author )eq'
 	
@@ -329,18 +328,14 @@ const	grab	= src	=> Object.fromEntries(
 		,"bar".d(''
 		
 			,"ICON.block".d('? .crew').ui(`
-				? Confirm( html.unjoin@message ):wait;
-				? (@DELETE"Member .article)api:query error.connection:alert;
-				.value=:!
-			`)
+				? .value=( @DELETE"Member .article)api:query,check error.connection:alert;
+			`)//? Confirm( html.unjoin@message ):wait,check;
 			
-			,"ACTION.cancel".ui('.value=.crew')
+			,"ACTION.cancel".ui('.value=')
 			
 			,"BUTTON.ok".ui(`
-				? .value=( @POST"Member ( .article .crew) )api:query
-				error.connection:alert .value=.crew
+				? .value=( @POST"Member ( .article .crew ) )api:query,check error.connection:alert
 			`)
-			
 		)
 	),
 

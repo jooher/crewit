@@ -11,7 +11,7 @@ export default{
 			const data = node.$.getDataContext();
 			data[name||"value"]=value;
 			if(data.$post)
-				data.$post.resolve(value);
+				data.$post.resolve(value||false);
 		},
 		
 		startmodal	

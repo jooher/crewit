@@ -271,7 +271,7 @@ label::before {
 
 .dialog>.bar {
   text-align: right;
-  margin-top: 2em;
+  /* margin-top: 2em; */
 }
 
 input[type=date] {

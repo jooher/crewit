@@ -256,6 +256,8 @@ img.avatar {
   background: gray center no-repeat;
   background-size: cover;
   border: 1px solid gainsboro;
+  /* position: relative; */
+  /* z-index: 2; */
 }
 
 label.avatar.filepicker {
@@ -378,9 +380,10 @@ label.skill {
 
 .member.me::after {
 	border-radius: 1.5em;
+	background: gold;
 	position: absolute;
-	right: -4px;
-	top: -4px;
+	right: -6px;
+	top: -6px;
 	display: block;
 	padding: .7em 1em;
 }
@@ -431,4 +434,10 @@ section.crew {
 
 icon::after {
   font-size: .8em;
+}
+
+.bar>.block {
+  font-size: .8rem;
+  margin: .5em;
+  float: left;
 }
