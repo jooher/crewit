@@ -60,8 +60,8 @@ const	grab	= src	=> Object.fromEntries(
 
 
 
-'APP'.d(""
-	,'PAGE'.d("$auth=:auth.load $scheduled= $create= $tagset= $article=. $search=( .author .tag ); u!"
+'APP'.d("$auth=:auth.load $ava="
+	,'PAGE'.d("$scheduled= $create= $tagset= $article=. $search=( .author .tag ); u!"
 	
 		,'ATTIC'.d("$?="
 
@@ -72,11 +72,10 @@ const	grab	= src	=> Object.fromEntries(
 					,'INPUT'.d("# $search.tag@value").ui("$search=( #:text@tag )")
 				)
 				,'ICON.login'.d("? $auth:!").ui("? $auth=Login():wait") //; About( $auth.author )
-				,'auth'.d(`
-					? $auth:check;
-					? $auth.info $auth.info=Info($auth.author):wait;
-					Avatar( $auth.info.pic );
-				`).ui("About( $auth.author )")
+				,'auth'.d('? $auth $ava; Avatar( $auth.info.pic )').ui("About( $auth.author )")
+				
+				//? $auth.info $auth.info=Info($auth.author):wait;
+
 			)
 
 	
@@ -154,8 +153,8 @@ const	grab	= src	=> Object.fromEntries(
 				
 					,'BUTTON.join'.d("? $joined:!")////$auth.info $auth.info
 					.ui(`	? Confirm( html.join@message ):wait;
-						? $auth $auth=Login():wait;
-						? $crew=Member(.article $auth.author):wait;
+						? $auth $auth=Auth:query,auth.save $auth=Login():wait;
+						? $crew=( Member(.article $auth.author):wait $crew )?;
 					`)
 					
 				).u('?')
@@ -263,12 +262,12 @@ const	grab	= src	=> Object.fromEntries(
 	
 	MyBadge
 	:'badge'.d('*@ .info=(.info ())?'
-		,'LABEL.avatar.filepicker'.d("$pic=; a!"
-			,'INPUT type=file'.ui("? $pic=#.files:ava.take,ava.upload; .pic=$pic.0")
-		).a("bg (dir.pics@ ($pic.0 .pic `avatar/default.jpg)? )concat")
+		,'LABEL.avatar.filepicker'.d("a!"
+			,'INPUT type=file'.ui("? $ava=#.files:ava.take,ava.upload; .pic=$ava.0")
+		).a("bg (dir.pics@ ($ava.0 .pic `avatar/default.jpg)? )concat")
 		,'alias contenteditable'.d("! .alias").ui(".alias=#:value")
 		,'about contenteditable'.d("! .about").ui(".about=#:value")
-	).u('? (@POST"Author ( $auth.info=. ) )api:query error.connection:alert; $auth:auth.save'),
+	).u('? (@POST"Author ( $auth.info=. ) )api:query error.connection:alert; $auth:auth.save $ava=()'),
 		
 	About
 	:modal('.me=( .author $auth.author )eq'
