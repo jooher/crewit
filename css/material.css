@@ -15,7 +15,7 @@
 [data-dap=false]{display:none !important;}
 [ui=click]{cursor:pointer;}
 
-[FADE]{position:absolute;animation: 1s fadein; width: 100%;}
+[FADE]{/* position:absolute; */animation: 1s fadein;width: 100%;}
 [FADE].STALE{opacity:0; transition:opacity 1s ease}
 @keyframes fadein { from {opacity:0;} to {opacity:1} }
 
@@ -195,7 +195,7 @@ tab.selected {
 	border-bottom-color: inherit;
 }
 
-article {padding: 1rem;}
+article {padding: 1rem;overflow-x: visible;}
 
 article.focused, .create>article {
   background-color: white;
@@ -280,7 +280,6 @@ input[type=date] {
 
 .form>label {
   margin: 2em 0;
-  /* background: red; */
   display: block;
 }
 

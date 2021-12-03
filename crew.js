@@ -82,8 +82,11 @@ const	grab	= src	=> Object.fromEntries(
 		)
 
 		,'ETAGE'.d(""
+			,'SECTION.articles FADE=1000'.d("* (`Articles $search )api:query; ! Article")
 			,'SECTION.create'.d("? $create; Article(:!@edit)")
-			,'SECTION FADE=1000'.d("* (`Articles $search )api:query; ! Article")
+			,'SECTION.auth'.d("? $auth"
+				,'TAP.add'.d("? $create:!").ui('? Confirm( html.create@message ):wait; $create=:!')
+			)
 		)
 		
 	)
@@ -113,7 +116,7 @@ const	grab	= src	=> Object.fromEntries(
 				
 			).ui("$?=$?:!")
 			
-			,'html'.d("#.innerHTML=.html:sanitizeOut")
+			,'html.intro'.d("#.innerHTML=.html:sanitizeOut")
 			
 			,'info'.d(""
 				,'venue'.d("! (.venue .date:date)?")
@@ -126,9 +129,9 @@ const	grab	= src	=> Object.fromEntries(
 					,'IMG'.d("!! (dir.pics .pics)concat@src")
 				)
 				
-				,'SECTION.details'.d("? .details; ! .details")
+				,'html.details'.d("? .details; ! .details")//SECTION.
 				
-				,'SECTION.crew'.d("*@ $crew"
+				,'crew'.d("$ava; *@ $crew" //SECTION.
 					,'member'.d(`
 						..joined=(..joined .me=(.author $auth.author)eq)?; !? .me;
 						Avatar(.info.pic);
@@ -151,17 +154,17 @@ const	grab	= src	=> Object.fromEntries(
 					
 					,'ICON.share'.ui('( ( base@ .article .tag .author .member)uri@url .title .html@text):share')
 				
-					,'BUTTON.join'.d("? $joined:!")////$auth.info $auth.info
+					,'BUTTON.join'.d("? $joined:!")
 					.ui(`	? Confirm( html.join@message ):wait;
-						? $auth $auth=Auth:query,auth.save $auth=Login():wait;
+						? $auth $auth=Auth:query,auth.save;
 						? $crew=( Member(.article $auth.author):wait $crew )?;
-					`)
+					`)// $auth=Login():wait
 					
 				).u('?')
 				
 			)
 			
-			,'TOGGLE'.ui('? $?=$?:!;').a("!? $?@on")
+			,'TOGGLE'.d('a!').ui('? $?=$?:!;').a("!? $?@on")
 		)
 		
 		.d("? $edit; $pics= $tags="
@@ -199,7 +202,7 @@ const	grab	= src	=> Object.fromEntries(
 			.ui("$tags=.tags:set.fromstr")			
 */		
 			
-			,'html contenteditable'
+			,'html.intro contenteditable'
 			.d("#.innerHTML=.html:sanitizeOut; paste safehtml")
 			.ui(".html=#:sanitizeIn")
 					
@@ -220,7 +223,7 @@ const	grab	= src	=> Object.fromEntries(
 				,'IMG'.d("!! (dir.pics .pic)concat@src")
 			)
 			
-			,'details contenteditable'
+			,'html.details contenteditable'
 			.d("#.innerHTML=.details:sanitizeOut; paste safehtml")
 			.ui(".details=#:sanitizeIn")
 			
@@ -249,7 +252,7 @@ const	grab	= src	=> Object.fromEntries(
 				)
 			)
 		)
-	).a('? ( $? $edit)?; !? "focused; scrollto #'),
+	).a('!? .focused=($? $edit)?; ? .focused; scrollto #'),
 	
 	Avatar
 	:'avatar'.d("bg (dir.pics@ (.pic `avatar/default.jpg)? )concat"),
@@ -281,11 +284,11 @@ const	grab	= src	=> Object.fromEntries(
 				,'title'.d("! .title")
 			).ui('$search=( ..author .article )')
 		)
-		
+/*		
 		,'auth'.d('? .me'
-			,'TAP.add'.ui("? Confirm( html.create@message ):wait; $create=:!")
 			,'ICON.logout'.ui("$auth=:auth.quit")
 		)
+*/
 	),
 	
 	Login
@@ -330,9 +333,9 @@ const	grab	= src	=> Object.fromEntries(
 				? .value=( @DELETE"Member .article)api:query,check error.connection:alert;
 			`)//? Confirm( html.unjoin@message ):wait,check;
 			
-			,"ACTION.cancel".ui('.value=')
+			//,"ACTION.cancel".ui('.value=')
 			
-			,"BUTTON.ok".ui(`
+			,"BUTTON.correct".ui(`
 				? .value=( @POST"Member ( .article .crew ) )api:query,check error.connection:alert
 			`)
 		)
