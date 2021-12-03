@@ -87,7 +87,7 @@ const	grab	= src	=> Object.fromEntries(
 			,'SECTION.auth'.d("? $auth"
 				,'TAP.add'.d("? $create:!").ui('? Confirm( html.create@message ):wait; $create=:!')
 			)
-		)
+		).d("! html.footer")
 		
 	)
 )

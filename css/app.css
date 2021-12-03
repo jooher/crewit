@@ -448,3 +448,16 @@ section.auth {
   padding: 1em;
   border-top: 1px solid lavender;
 }
+
+footer>a>img {
+  height: 2em;
+  margin-right: .5em;
+  vertical-align: middle;
+}
+
+a {
+  display: inline-block;
+  margin-right: 2em;
+  color: white;
+  text-decoration: none;
+}

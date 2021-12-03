@@ -286,3 +286,9 @@ input[type=date] {
 .centered {
   text-align: center;
 }
+
+footer {
+  padding: 1em;
+  background: slategray;
+  text-align: right;
+}
