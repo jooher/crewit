@@ -200,8 +200,9 @@ article {padding: 1rem;overflow-x: visible;}
 article.focused, .create>article {
   background-color: white;
   box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
-  margin-bottom: .5rem;
+  margin-top: .5rem;
   box-sizing: border-box;
+  z-index: 1;
   /* max-height: unset; */
 }
 

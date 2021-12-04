@@ -99,8 +99,6 @@ article>.auth{
 .more {
 	margin: 2em 0;
 	max-height: 60em;
-	/* overflow-x: visible; */
-	/* overflow-y: auto; */
 }
 
 .crew::before {
@@ -445,8 +443,10 @@ icon::after {
 }
 
 section.auth {
+  background: lightsteelblue;
   padding: 1em;
   border-top: 1px solid lavender;
+  text-align: center;
 }
 
 footer>a>img {
@@ -460,4 +460,13 @@ a {
   margin-right: 2em;
   color: white;
   text-decoration: none;
+}
+
+.auth>.add {
+  background: white;
+  padding: 1.5em;
+  margin: 1em;
+  border-radius: 1em;
+  box-shadow: 0 4px 8px rgb(0 0 0/10%);
+  display: block;
 }
