@@ -54,8 +54,8 @@ const	dap=(Env=>
 		"~"	: values=>{ const a=values[values.length-1]; let i=0;while(a!=values[++i]);return values[i-1]},	/// next in a row
 		eq	: values=>{ const a=values.pop(); for(let i=values.length;i--;)if(values[i]!=a)return null;return true; },
 		ne	: values=>{ const a=values.pop(); for(let i=values.length;i--;)if(values[i]!=a)return true;return null; },
-		asc	: values=>{ for(let a=parseFloat(values.pop()),i=values.length;i--;)if(a>(a=parseFloat(values[i])))return null;return a; },
-		dsc	: values=>{ for(let a=parseFloat(values.pop()),i=values.length;i--;)if(a<(a=parseFloat(values[i])))return null;return a; },
+		asc	: values=>{ let a=parseFloat(values.pop());for(let i=values.length;i--;)if(a>(a=parseFloat(values[i])))return null;return a; },
+		dsc	: values=>{ let a=parseFloat(values.pop());for(let i=values.length;i--;)if(a<(a=parseFloat(values[i])))return null;return a; },
 				
 		join	: values=>values.reverse().join(values.shift()),
 		concat	: values=>values.reverse().join(""),

@@ -25,13 +25,12 @@ const	grab	= src	=> Object.fromEntries(
 		.u("value .value; endmodal")
 		.e("POPSTATE", "endmodal"),
 	
-	bar = (ok,cancel) => "bar".d(""
-		,'ACTION.cancel'.ui(cancel||'.value=:?')
+	bar = (ok,cancel) => "VAULT".d(""
+		,'BUTTON.shy.cancel'.ui(cancel||'.value=:?')
 		,'BUTTON.ok'.ui(ok||'.value=:!')
 	),
 	
 	ok=bar(),
-	
 
 
 	headers= {  }, //"Content-Type":"application/json;charset=utf-8"
@@ -61,7 +60,7 @@ const	grab	= src	=> Object.fromEntries(
 
 
 'APP'.d("$auth=:auth.load $ava="
-	,'PAGE'.d("$scheduled= $create= $tagset= $article=. $search=( .author .tag ); u!"
+	,'PAGE'.d("$scheduled= $create= $tagset= $article=. $search=( .author .tag )"//; u!
 	
 		,'ATTIC'.d("$?="
 
@@ -75,9 +74,7 @@ const	grab	= src	=> Object.fromEntries(
 				,'auth'.d('? $auth $ava; Avatar( $auth.info.pic )').ui("About( $auth.author )")
 				
 				//? $auth.info $auth.info=Info($auth.author):wait;
-
 			)
-
 	
 		)
 
@@ -143,7 +140,7 @@ const	grab	= src	=> Object.fromEntries(
 					`)
 				)
 				
-				,'bar'.d("$joined=($crew $auth.author)filter:??"
+				,'VAULT'.d("$joined=($crew $auth.author)filter:??"
 				
 					,'joined'.d(`? $joined; ? .crewonly=("Crewonly_ .article)api:query`
 										
@@ -239,16 +236,13 @@ const	grab	= src	=> Object.fromEntries(
 					,'INPUT.date type=date'.d("!! .date:dateonly@value").ui(".date=#:value")
 				)
 				
-				,'bar'.d(""
-				
-					,'ACTION.cancel'.ui("$edit= $create=")
-				
-					,'BUTTON.done'.ui(`
-						? (.date .tags .title .price .html)! error.incomplete:alert;
-						? $pics:! .pics=($pics:img.upload .pics)? error.upload:alert;
-						? .result=( @POST"Article (.article .title .tags .date (.price .venue .html .thumb .pics .details .link)@content) )api:query error.connection:alert;
-						.article=.result.0.article $edit=
-					`)//? (.pics $pics)? error.nopics:alert;
+				,bar(`
+					? (.date .tags .title .price .html)! error.incomplete:alert;
+					? $pics:! .pics=($pics:img.upload .pics)? error.upload:alert;
+					? .result=( @POST"Article (.article .title .tags .date (.price .venue .html .thumb .pics .details .link)@content) )api:query error.connection:alert;
+					.article=.result.0.article $edit=
+					`				
+					,'$edit= $create='
 				)
 			)
 		)
@@ -283,6 +277,11 @@ const	grab	= src	=> Object.fromEntries(
 				,"skill".d("! .crew.skill; !? (`level .crew.level)concat")
 				,'title'.d("! .title")
 			).ui('$search=( ..author .article )')
+		)
+		
+		,"VAULT".d(''
+			,"BUTTON.shy.follow".ui('? ("Signup .author@to)api:query error.connection:alert')
+			,"BUTTON.shy.ok".ui(':!')
 		)
 /*		
 		,'auth'.d('? .me'
@@ -327,13 +326,11 @@ const	grab	= src	=> Object.fromEntries(
 			,"INPUT".d('#.value=$?; #:focus').ui('.crew.skill=#:value; ?')
 		)
 		
-		,"bar".d(''
+		,"VAULT".d(''
 		
 			,"ICON.block".d('? .crew').ui(`
 				? .value=( @DELETE"Member .article)api:query,check error.connection:alert;
 			`)//? Confirm( html.unjoin@message ):wait,check;
-			
-			//,"ACTION.cancel".ui('.value=')
 			
 			,"BUTTON.correct".ui(`
 				? .value=( @POST"Member ( .article .crew ) )api:query,check error.connection:alert

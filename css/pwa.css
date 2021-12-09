@@ -15,17 +15,18 @@
 [data-dap=false]{display:none !important;}
 [ui=click]{cursor:pointer;}
 
-[FADE]{/* position:absolute; */animation: 1s fadein;width: 100%;}
+[FADE]{animation: 1s fadein;}/* position:absolute;  width: 100%; */
 [FADE].STALE{opacity:0; transition:opacity 1s ease}
 @keyframes fadein { from {opacity:0;} to {opacity:1} }
 
 
-icon, tap {
+icon, tap, button {
 	vertical-align: middle;
 }
 
 icon::before, tap::before, [icon]::before, .checked::before
 {
+	font-size: 1.2em;
 	font-family: 'Material Icons';
 	font-weight: normal;
 	font-style: normal;
@@ -55,7 +56,7 @@ icon::before, tap::before, [icon]::before, .checked::before
 	content: attr(icon);
 }
 
-icon::before, tap::before, action:empty::before{
+icon::before, tap::before{
 	content:attr(class);
 }
 
@@ -67,17 +68,6 @@ icon::after {
 	  font-size: .8em;
 }
 
-action{
-	display: inline-block;
-	font-size: .85em;
-	margin: .5em 2em;
-}
-
-toggle {
-	display: block;
-	font-size:.8em;
-}
-
 label>icon{
 	margin: 0;
 	padding: 0;
@@ -85,31 +75,18 @@ label>icon{
 	position:absolute;
 }
 
-.bar>icon, .bar>button {
-	margin-left: 1rem;
-	vertical-align: middle;
-}
-
-.bar>icon{
-	font-size: 2em;
-}
-
 label::before {
 	color: gray;
 	margin: .5em 0;
 }
 
-
-
-
-
-
-
 button {
-	padding: .5em 1em;
+	display: inline-block;
+	padding: .5em 2em;
 	border-radius:.5em;
 }
 
+button.shy{background:none; }
 
 input, select, textarea {
 	font-size: inherit;
@@ -154,19 +131,6 @@ label>input {
 
 
 
-
-
-/*
-h1{font:normal 60px Roboto,sans-serif}
-h2{ font: normal 1.25rem sans-serif; margin-top: 2em; font: bold 1.5em Roboto,sans-serif; }
-h3{ font: normal 21px Roboto,sans-serif; margin-top: 2em;}
-h4{font:normal 27px Roboto,sans-serif}
-h5{font:normal 24px Roboto,sans-serif}
-h6{font:normal 20px Roboto,sans-serif}
-*/
-
-
-
 html,body {
 	height: 100%;
 	padding: 0;
@@ -186,31 +150,38 @@ body,section,article{
 	position: relative;
 }
 
-app {
+app	{
 	height: 100%;
 	display: flex;
 	flex-direction: row;
 	transition: all .5s;
 }
 
-page {
+page	{
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
 }
 
-roof{
+roof	{
 	position:relative;
 	z-index: 1;
 }
 
-attic{
+attic	{
 	display: block;
 	position: sticky;
 	top: 0;
 	margin: 0;
 	z-index: 2;
+}
+
+
+
+toggle {
+	display: block;
+	font-size:.8em;
 }
 
 attic>bar {
@@ -233,14 +204,23 @@ etage {
 	scroll-behavior: smooth;
 }
 
-vault {
+vault{
+	display: flex;
+	justify-content: flex-end;
+	gap: 1em;
+	position: relative;
+}
+
+page>vault {
 	padding: .5rem;
 	box-sizing: border-box;
-	display: flex;
 	margin: 0;
 	font-size: 1.25em;
-	box-shadow: 0 -.5rem .5rem white;
 	z-index: 1;
+}
+
+.dialog>vault{
+	margin-top: 2em;
 }
 
 tabset {
@@ -295,4 +275,8 @@ footer {
   justify-content: space-between;
   padding: 1em;
   align-items: center;
+}
+
+.search::before {
+  font-size: inherit;
 }
