@@ -275,6 +275,10 @@ footer {
   justify-content: space-between;
   padding: 1em;
   align-items: center;
+  /* position: absolute; */
+  /* bottom: 0; */
+  /* left: 0; */
+  /* right: 0; */
 }
 
 .search::before {

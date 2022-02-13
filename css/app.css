@@ -464,3 +464,11 @@ vault>.block {
   position: absolute;
   left: 0;
 }
+
+.html>a {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  vertical-align: middle;
+  background: gray;
+}

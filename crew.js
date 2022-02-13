@@ -6,6 +6,8 @@ import restAPI	from "./jsm/rest.js";
 import httpAuth	from "./jsm/auth.js";
 import imgtaker	from "./jsm/imgtake.js";
 
+import format	from "./jsm/format.js";
+
 
 const	grab	= src	=> Object.fromEntries(
 		[...(src.parentNode.removeChild(src)).children]
@@ -59,7 +61,7 @@ const	grab	= src	=> Object.fromEntries(
 
 
 
-'APP'.d("$auth=:auth.load $ava="
+'APP'.d("$auth=:auth.load $ava= $tie="
 	,'PAGE'.d("$scheduled= $create= $tagset= $article=. $search=( .author .tag )"//; u!
 	
 		,'ATTIC'.d("$?="
@@ -77,18 +79,43 @@ const	grab	= src	=> Object.fromEntries(
 			)
 	
 		)
-
-		,'ETAGE'.d(""
-			,'SECTION.articles FADE=1000'.d("* (`Articles $search )api:query; ! Article")
+/*
+		,'ETAGE'.d("? $search:!"
+			,'SECTION.topics'.d("* (`Articles $tie)api:query"
+				,'Topic'.d("$?=; ! Header Intro"
+					,'more'.d("? $?"
+						,'html.details'.d("? .details; ! .details")//SECTION.
+					).ui("$search=.tags")
+				)
+			)
+		)
+*/		
+		,'ETAGE'.d("" //? $search
+			,'SECTION.articles FADE=1000'.d("* (`Articles $tie $search )api:query; ! Article")
 			,'SECTION.create'.d("? $create; Article(:!@edit)")
 			,'SECTION.auth'.d("? $auth"
 				,'TAP.add'.d("? $create:!").ui('? Confirm( html.create@message ):wait; $create=:!')
-			)
-		).d("! html.footer")
-		
+			).d("! html.footer")
+		)
 	)
 )
 .DICT({
+	
+	Header
+	:'HEADER'.d(""//#:focus
+	
+		,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")
+	
+		,'H3'.d("! .title")
+	
+		,'tags'.d("* .tags:split@tag"
+			,'tag'.d("! .tag").ui("$search=(.tag)")
+		)
+		
+	).ui("$?=$?:!"),
+	
+	Intro
+	:'html.intro'.d("#.innerHTML=.html:format.htmlOut"),
 	
 	Article
 	:'ARTICLE'.d("$?=( $article .article )eq $edit=.; & .content@; a!"
@@ -99,21 +126,7 @@ const	grab	= src	=> Object.fromEntries(
 		
 		,'content'
 		
-		.d("? $edit:!; "
-		
-			,'HEADER'.d(""
-			
-				,'thumb'.d("bg (dir.pics@ (.thumb .pics.0 `default.jpg)? )concat")
-			
-				,'H3'.d("! .title; #:focus")
-			
-				,'tags'.d("* .tags:split@tag"
-					,'tag'.d("! .tag").ui("$search=(.tag)")
-				)
-				
-			).ui("$?=$?:!")
-			
-			,'html.intro'.d("#.innerHTML=.html:sanitizeOut")
+		.d("? $edit:!; ! Header Intro"
 			
 			,'info'.d(""
 				,'venue'.d("! (.venue .date:date)?")
@@ -126,7 +139,7 @@ const	grab	= src	=> Object.fromEntries(
 					,'IMG'.d("!! (dir.pics .pics)concat@src")
 				)
 				
-				,'html.details'.d("? .details; ! .details")//SECTION.
+				,'html.details'.d("? .details; #.innerHTML=.details:format.htmlOut")//SECTION.
 				
 				,'crew'.d("$ava; *@ $crew" //SECTION.
 					,'member'.d(`
@@ -200,8 +213,8 @@ const	grab	= src	=> Object.fromEntries(
 */		
 			
 			,'html.intro contenteditable'
-			.d("#.innerHTML=.html:sanitizeOut; paste safehtml")
-			.ui(".html=#:sanitizeIn")
+			.d("! .html; paste safehtml")
+			.ui(".html=#:format.htmlIn")
 					
 			,'info'.d(""
 				,edit('venue')// contenteditable'.d("! .venue").ui(".venue")
@@ -221,8 +234,8 @@ const	grab	= src	=> Object.fromEntries(
 			)
 			
 			,'html.details contenteditable'
-			.d("#.innerHTML=.details:sanitizeOut; paste safehtml")
-			.ui(".details=#:sanitizeIn")
+			.d("! .details; paste safehtml")
+			.ui(".details=#:format.htmlIn")
 			
 			,'more'.d(""
 			
@@ -246,6 +259,9 @@ const	grab	= src	=> Object.fromEntries(
 				)
 			)
 		)
+	
+		// ,'ties'.d("* (`Articles .article@tie)api:query; ! Article")
+	
 	).a('!? .focused=($? $edit)?; ? .focused; scrollto #'),
 	
 	Avatar
@@ -414,7 +430,7 @@ const	grab	= src	=> Object.fromEntries(
 	},
 	
 	convert:{
-		img, ava, auth, date, dateonly, vendor,
+		img, ava, auth, date, dateonly, vendor, format,
 		split	:str=>str?str.split(" "):[],
 		
 		sanitizeIn: elem=>elem.innerText.trim(), //
